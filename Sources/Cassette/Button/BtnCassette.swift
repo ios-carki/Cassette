@@ -27,6 +27,10 @@ struct BtnCassette: View {
     //Action
     private var clickAction: (() -> ())?
     private var disabled : Binding<Bool>?
+    
+    //Setting
+    private var buttonMode: ButtonMode?
+    
     var body: some View {
         Button {
             clickAction?()
@@ -43,26 +47,30 @@ struct BtnCassette: View {
             .background(buttonBackgroundColor ?? BtnCassetteConfig.shared.defaultButtonBackgroundColor)
             .cornerRadius(buttonCornerRadius ?? BtnCassetteConfig.shared.defaultButtonCornerRadius)
         }.disabled(disabled?.wrappedValue ?? false)
-
-    }
-    
-    
-    var normalBtn: some View {
-        Text("asdf")
     }
 }
 
 extension BtnCassette {
     
-    func setMode(mode: ButtonMode?) -> Self {
+    func click(_ click: (() -> Void)?) -> Self {
         var copy = self
-        
-        if mode == .normal {
-            
-        }
-        
+        copy.clickAction = click
         return copy
     }
+    
+//    func setMode(mode: ButtonMode?) -> Self {
+//        var copy = self
+//
+//        if mode == .normal {
+//
+//        }
+//
+//        if mode == .clear {
+//            copy.buttonBackgroundColor = .clear
+//        }
+//
+//        return copy
+//    }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {

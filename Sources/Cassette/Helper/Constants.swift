@@ -15,6 +15,7 @@ enum ButtonMode {
     case normal
     case leadingImage
     case trailingImage
+    case clear
     
     //v2
     case justImage
