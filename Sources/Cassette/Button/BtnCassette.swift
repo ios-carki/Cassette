@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BtnCassette: View {
+public struct BtnCassette: View {
     //Text
     private var buttonText: String?
     private var buttonTextColor: Color?
@@ -31,7 +31,7 @@ struct BtnCassette: View {
     //Setting
     private var buttonMode: ButtonMode?
     
-    var body: some View {
+    public var body: some View {
         Button {
             clickAction?()
         } label: {
