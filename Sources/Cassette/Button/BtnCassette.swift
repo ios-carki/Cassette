@@ -17,6 +17,9 @@ public struct BtnCassette: View {
     //Design
     //Border
     private var buttonCornerRadius: CGFloat = BtnCassetteConfig.shared.defaultButtonCornerRadius
+    private var buttonBorderWidth: CGFloat = BtnCassetteConfig.shared.defaultBorderWidth
+    private var buttonBorderColor: Color = BtnCassetteConfig.shared.defaultBorderColor
+    
     
     //Background
     private var buttonBackgroundColor: Color = BtnCassetteConfig.shared.defaultButtonBackgroundColor
@@ -51,6 +54,11 @@ public struct BtnCassette: View {
             .frame(maxWidth: .infinity)
             .background((disabled?.wrappedValue ?? false) ? buttonDisableBackgroundColor : buttonBackgroundColor)
             .cornerRadius(buttonCornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: buttonCornerRadius)
+                    .inset(by: 0.5)
+                    .stroke(buttonBorderColor, lineWidth: buttonBorderWidth)
+            )
         }.disabled(disabled?.wrappedValue ?? false)
     }
 }
@@ -58,24 +66,7 @@ public struct BtnCassette: View {
 @available(iOS 13.0, *)
 extension BtnCassette {
     
-    public func setTitle(text: String?) -> Self {
-        var copy = self
-        copy.buttonText = text
-        return copy
-    }
-    
-    public func setDisable(disable: Binding<Bool>?) -> Self {
-        var copy = self
-        copy.disabled = disable
-        return copy
-    }
-    
-    public func click(_ click: (() -> Void)?) -> Self {
-        var copy = self
-        copy.clickAction = click
-        return copy
-    }
-    
+    // Mode
     public func setMode(mode: ButtonMode?) -> Self {
         var copy = self
 
@@ -89,10 +80,83 @@ extension BtnCassette {
 
         return copy
     }
+    
+    // Text
+    public func setTitle(text: String?) -> Self {
+        var copy = self
+        copy.buttonText = text
+        return copy
+    }
+    
+    public func setTitleTextColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonTextColor = color
+        return copy
+    }
+    
+    public func setTitleTextFont(font: Font) -> Self {
+        var copy = self
+        copy.buttonTextFont = font
+        return copy
+    }
+    
+    // Design
+    // Border
+    public func setCornerRadius(_ radius: CGFloat) -> Self {
+        var copy = self
+        copy.buttonCornerRadius = radius
+        return copy
+    }
+    
+    public func setBoderWidth(width: CGFloat) -> Self {
+        var copy = self
+        copy.buttonBorderWidth = width
+        return copy
+    }
+    
+    public func setBorderColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonBorderColor = color
+        return copy
+    }
+    
+    // Background
+    public func setBackgroundColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonBackgroundColor = color
+        return copy
+    }
+    
+    public func setDisableBackgroundColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonDisableBackgroundColor = color
+        return copy
+    }
+    
+    // Action
+    public func click(_ click: (() -> Void)?) -> Self {
+        var copy = self
+        copy.clickAction = click
+        return copy
+    }
+    
+    public func setDisable(disable: Binding<Bool>?) -> Self {
+        var copy = self
+        copy.disabled = disable
+        return copy
+    }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        BtnCassette()
+        ZStack {
+            if #available(iOS 14.0, *) {
+                Color.gray.ignoresSafeArea()
+            } else {
+                // Fallback on earlier versions
+            }
+            BtnCassette()
+                .padding(.horizontal, 20)
+        }
     }
 }

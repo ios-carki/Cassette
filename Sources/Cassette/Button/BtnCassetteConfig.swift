@@ -20,6 +20,8 @@ public class BtnCassetteConfig {
     //Design
     //Border
     public var defaultButtonCornerRadius: CGFloat = 12
+    public var defaultBorderWidth: CGFloat = 1
+    public var defaultBorderColor: Color = .white
     
     //Background
     public var defaultButtonBackgroundColor: Color = .black
