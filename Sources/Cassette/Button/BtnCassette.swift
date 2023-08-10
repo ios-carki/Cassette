@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 13.0, *)
 public struct BtnCassette: View {
     //Text
     private var buttonText: String?
@@ -50,27 +51,40 @@ public struct BtnCassette: View {
     }
 }
 
+@available(iOS 13.0, *)
 extension BtnCassette {
     
-    func click(_ click: (() -> Void)?) -> Self {
+    public func setTitle(text: String?) -> Self {
+        var copy = self
+        copy.buttonText = text
+        return copy
+    }
+    
+    public func setDisable(disable: Binding<Bool>?) -> Self {
+        var copy = self
+        copy.disabled = disable
+        return copy
+    }
+    
+    public func click(_ click: (() -> Void)?) -> Self {
         var copy = self
         copy.clickAction = click
         return copy
     }
     
-//    func setMode(mode: ButtonMode?) -> Self {
-//        var copy = self
-//
-//        if mode == .normal {
-//
-//        }
-//
-//        if mode == .clear {
-//            copy.buttonBackgroundColor = .clear
-//        }
-//
-//        return copy
-//    }
+    public func setMode(mode: ButtonMode?) -> Self {
+        var copy = self
+
+        if mode == .normal {
+
+        }
+
+        if mode == .clear {
+            copy.buttonBackgroundColor = .clear
+        }
+
+        return copy
+    }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {

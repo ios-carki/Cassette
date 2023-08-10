@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Constants {
+public struct Constants {
     
 }
 
-enum ButtonMode {
+public enum ButtonMode {
     case normal
     case leadingImage
     case trailingImage
