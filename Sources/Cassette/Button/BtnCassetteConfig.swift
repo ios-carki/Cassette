@@ -13,7 +13,7 @@ public class BtnCassetteConfig {
     
     private init() {}
     //Text
-    public var defaultButtonText: String = "Set Text First"
+    public var defaultButtonText: String = "Set Title First"
     public var defaultButtonTextColor: Color = .yellow
     public var defaultButtonTextFont: Font = .callout
     

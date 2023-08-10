@@ -10,19 +10,19 @@ import SwiftUI
 public struct BtnCassette: View {
     //Text
     private var buttonText: String?
-    private var buttonTextColor: Color?
-    private var buttonTextFont: Font?
+    private var buttonTextColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
+    private var buttonTextFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
     
     //Design
     //Border
-    private var buttonCornerRadius: CGFloat?
+    private var buttonCornerRadius: CGFloat = BtnCassetteConfig.shared.defaultButtonCornerRadius
     
     //Background
-    private var buttonBackgroundColor: Color?
-    private var buttonDisableBackgroundColor: Color?
+    private var buttonBackgroundColor: Color = BtnCassetteConfig.shared.defaultButtonBackgroundColor
+    private var buttonDisableBackgroundColor: Color = BtnCassetteConfig.shared.defaultbuttonDisableBackgroundColor
     
     //Frame
-    private var buttonHeight: CGFloat?
+    private var buttonHeight: CGFloat = BtnCassetteConfig.shared.defaultButtonHeight
     
     //Action
     private var clickAction: (() -> ())?
@@ -37,15 +37,15 @@ public struct BtnCassette: View {
         } label: {
             HStack(alignment: .center, spacing: 10) {
                 Text(buttonText ?? BtnCassetteConfig.shared.defaultButtonText)
-                    .foregroundColor(buttonTextColor ?? BtnCassetteConfig.shared.defaultButtonTextColor)
-                    .font(buttonTextFont ?? BtnCassetteConfig.shared.defaultButtonTextFont)
+                    .foregroundColor(buttonTextColor)
+                    .font(buttonTextFont)
             }
             .padding(.horizontal, 22)
             .padding(.vertical, 12)
-            .frame(height: buttonHeight ?? BtnCassetteConfig.shared.defaultButtonHeight, alignment: .center)
+            .frame(height: buttonHeight, alignment: .center)
             .frame(maxWidth: .infinity)
-            .background(buttonBackgroundColor ?? BtnCassetteConfig.shared.defaultButtonBackgroundColor)
-            .cornerRadius(buttonCornerRadius ?? BtnCassetteConfig.shared.defaultButtonCornerRadius)
+            .background(buttonBackgroundColor)
+            .cornerRadius(buttonCornerRadius)
         }.disabled(disabled?.wrappedValue ?? false)
     }
 }
