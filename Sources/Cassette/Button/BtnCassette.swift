@@ -32,6 +32,10 @@ public struct BtnCassette: View {
     //Setting
     private var buttonMode: ButtonMode?
     
+    public init() {
+        
+    }
+    
     public var body: some View {
         Button {
             clickAction?()
