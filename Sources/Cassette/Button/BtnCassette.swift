@@ -49,7 +49,7 @@ public struct BtnCassette: View {
             .padding(.vertical, 12)
             .frame(height: buttonHeight, alignment: .center)
             .frame(maxWidth: .infinity)
-            .background(buttonBackgroundColor)
+            .background((disabled?.wrappedValue ?? false) ? buttonDisableBackgroundColor : buttonBackgroundColor)
             .cornerRadius(buttonCornerRadius)
         }.disabled(disabled?.wrappedValue ?? false)
     }
