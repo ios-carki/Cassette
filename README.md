@@ -34,6 +34,10 @@ Cassette is an Custom View library written in SwiftUI.
 -->
 
 ## Installation
+### Swift Package Manager
+```swift
+.package(url: "https://github.com/ios-carki/Cassette.git", from: "main")
+```
 ## Features
 I will guide you on how to use CustomViews in SwiftUI.
 ## Button
