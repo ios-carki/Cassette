@@ -71,7 +71,7 @@ extension BtnCassette {
         var copy = self
 
         if mode == .normal {
-
+            
         }
 
         if mode == .clear {
@@ -108,7 +108,7 @@ extension BtnCassette {
         return copy
     }
     
-    public func setBoderWidth(width: CGFloat) -> Self {
+    public func setBorderWidth(width: CGFloat) -> Self {
         var copy = self
         copy.buttonBorderWidth = width
         return copy
