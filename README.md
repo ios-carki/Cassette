@@ -6,6 +6,7 @@
 inspired by [Esat GÖZCÜ](https://github.com/esatgozcu/SwiftUI-Custom-TextField) CustomTextField 🙇🏻‍♂️
 
 # Cassette
+⚠️ It's still a developing Lib.
 
 Cassette is an Custom View library written in SwiftUI.
 
