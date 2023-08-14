@@ -16,6 +16,7 @@ Cassette is an Custom View library written in SwiftUI.
 - [features](#features)
   - [Button](#button)
     - [Customize config](#customize-config)
+    - [Variable & Function](#variable-function)
     - [Usage](#usage)
  
 <!--
@@ -100,9 +101,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-## Button - Set Default Variable
+## Variable Function
 
 #### Default Text Setting
+- Set Variable
 ```swift
     //Text
     public var defaultButtonText: String = "Set Title First"
@@ -110,7 +112,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var defaultButtonTextFont: Font = .callout
 ```
 
+- Function
+```swift
+    // Text
+    public func setTitle(text: String?) -> Self {
+        var copy = self
+        copy.buttonText = text
+        return copy
+    }
+    
+    public func setTitleTextColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonTextColor = color
+        return copy
+    }
+    
+    public func setTitleTextFont(font: Font) -> Self {
+        var copy = self
+        copy.buttonTextFont = font
+        return copy
+    }
+```
 #### Default Border Setting
+- Set Variable
 ```swift
     //Design
     //Border
@@ -118,20 +142,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var defaultBorderWidth: CGFloat = 1
     public var defaultBorderColor: Color = .white
 ```
+- Function
+```swift
+    // Design
+    // Border
+    public func setCornerRadius(_ radius: CGFloat) -> Self {
+        var copy = self
+        copy.buttonCornerRadius = radius
+        return copy
+    }
+    
+    public func setBoderWidth(width: CGFloat) -> Self {
+        var copy = self
+        copy.buttonBorderWidth = width
+        return copy
+    }
+    
+    public func setBorderColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonBorderColor = color
+        return copy
+    }
+```
 
 #### Default Background Setting
+- Set Variable
 ```swift
     //Background
     public var defaultButtonBackgroundColor: Color = .black
     public var defaultbuttonDisableBackgroundColor: Color = .gray
 ```
 
-#### Default Frame Setting
+- Function
+```swift
+    // Background
+    public func setBackgroundColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonBackgroundColor = color
+        return copy
+    }
+    
+    public func setDisableBackgroundColor(color: Color) -> Self {
+        var copy = self
+        copy.buttonDisableBackgroundColor = color
+        return copy
+    }
+```
+
+#### Default Frame Setting / Function
+- Set Variable
 ```swift
     //Frame
     public var defaultButtonHeight: CGFloat = 50
 ```
 
+#### Set Mode & Action Function
+```swift
+    // Mode -> ** Still Developing **
+    public func setMode(mode: ButtonMode?) -> Self {
+        var copy = self
+
+        if mode == .normal {
+
+        }
+
+        if mode == .clear {
+            copy.buttonBackgroundColor = .clear
+        }
+
+        return copy
+    }
+    
+    // Action
+    public func click(_ click: (() -> Void)?) -> Self {
+        var copy = self
+        copy.clickAction = click
+        return copy
+    }
+    
+    public func setDisable(disable: Binding<Bool>?) -> Self {
+        var copy = self
+        copy.disabled = disable
+        return copy
+    }
+```
 ## Usage
 - Code
 ```swift
