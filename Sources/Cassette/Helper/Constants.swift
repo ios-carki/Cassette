@@ -26,3 +26,8 @@ public enum ButtonMode {
     case justIcon
     
 }
+
+public enum ImageType {
+    case system
+    case custom
+}

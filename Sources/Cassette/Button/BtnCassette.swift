@@ -20,7 +20,6 @@ public struct BtnCassette: View {
     private var buttonBorderWidth: CGFloat = BtnCassetteConfig.shared.defaultBorderWidth
     private var buttonBorderColor: Color = BtnCassetteConfig.shared.defaultBorderColor
     
-    
     //Background
     private var buttonBackgroundColor: Color = BtnCassetteConfig.shared.defaultButtonBackgroundColor
     private var buttonDisableBackgroundColor: Color = BtnCassetteConfig.shared.defaultbuttonDisableBackgroundColor
@@ -34,6 +33,10 @@ public struct BtnCassette: View {
     
     //Setting
     private var buttonMode: ButtonMode?
+    private var imageType: ImageType?
+    
+    //Image
+    private var buttonImage: String?
     
     public init() {
         
@@ -44,9 +47,29 @@ public struct BtnCassette: View {
             clickAction?()
         } label: {
             HStack(alignment: .center, spacing: 10) {
+                if buttonMode == .leadingImage {
+                    if imageType == .system {
+                        Image(systemName: buttonImage ?? "Error: Check your image name")
+                            .foregroundColor(.white)
+                    } else if imageType == .custom {
+                        Image(buttonImage ?? "Error: Check your image name")
+                            .foregroundColor(.white)
+                    }
+                }
+                
                 Text(buttonText ?? BtnCassetteConfig.shared.defaultButtonText)
                     .foregroundColor(buttonTextColor)
                     .font(buttonTextFont)
+                
+                if buttonMode == .trailingImage {
+                    if imageType == .system {
+                        Image(systemName: buttonImage ?? "Error: Check your image name")
+                            .foregroundColor(.white)
+                    } else if imageType == .custom {
+                        Image(buttonImage ?? "Error: Check your image name")
+                            .foregroundColor(.white)
+                    }
+                }
             }
             .padding(.horizontal, 22)
             .padding(.vertical, 12)
@@ -67,15 +90,39 @@ public struct BtnCassette: View {
 extension BtnCassette {
     
     // Mode
-    public func setMode(mode: ButtonMode?) -> Self {
+    public func setMode(mode: ButtonMode?, setImageType: ImageType? = nil) -> Self {
         var copy = self
 
         if mode == .normal {
-            
+            copy.buttonMode = .normal
+            copy.buttonBorderColor = .white
+            copy.buttonBackgroundColor = .black
+            copy.buttonTextColor = .white
         }
 
         if mode == .clear {
+            copy.buttonMode = .clear
+            copy.buttonBorderColor = .black
             copy.buttonBackgroundColor = .clear
+            copy.buttonTextColor = .black
+        }
+        
+        if mode == .trailingImage {
+            copy.buttonMode = .trailingImage
+            if setImageType == .system {
+                copy.imageType = .system
+            } else if setImageType == .custom {
+                copy.imageType = .custom
+            }
+        }
+        
+        if mode == .leadingImage {
+            copy.buttonMode = .leadingImage
+            if setImageType == .system {
+                copy.imageType = .system
+            } else if setImageType == .custom {
+                copy.imageType = .custom
+            }
         }
 
         return copy
@@ -145,6 +192,13 @@ extension BtnCassette {
         copy.disabled = disable
         return copy
     }
+    
+    //Setting
+    public func setButtonImage(imageName: String) -> Self {
+        var copy = self
+        copy.buttonImage = imageName
+        return copy
+    }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
@@ -156,7 +210,10 @@ struct SwiftUIView_Previews: PreviewProvider {
                 // Fallback on earlier versions
             }
             BtnCassette()
+                .setMode(mode: .trailingImage, setImageType: .system)
+                .setButtonImage(imageName: "globe")
                 .padding(.horizontal, 20)
+                
         }
     }
 }
