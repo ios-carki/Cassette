@@ -33,24 +33,24 @@ public struct BtnCassette: View {
     //Text
     private var text: String?
     private var bindingText: Binding<String>?
-    private var textColor: Color?
-    private var textFont: Font?
+    private var textColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
+    private var textFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
     
     //Image
     private var imageName: String?
     
     //Design
     //Border
-    private var buttonCornerRadius: CGFloat?
-    private var buttonBorderWidth: CGFloat?
-    private var buttonBorderColor: Color?
+    private var buttonCornerRadius: CGFloat = BtnCassetteConfig.shared.defaultButtonCornerRadius
+    private var buttonBorderWidth: CGFloat = BtnCassetteConfig.shared.defaultBorderWidth
+    private var buttonBorderColor: Color = BtnCassetteConfig.shared.defaultBorderColor
     
     //Background
-    private var buttonBackgroundColor: Color?
-    private var buttonDisableBackgroundColor: Color?
+    private var buttonBackgroundColor: Color = BtnCassetteConfig.shared.defaultButtonBackgroundColor
+    private var buttonDisableBackgroundColor: Color = BtnCassetteConfig.shared.defaultbuttonDisableBackgroundColor
     
     //Frame
-    private var buttonHeight: CGFloat?
+    private var buttonHeight: CGFloat = BtnCassetteConfig.shared.defaultButtonHeight
     
     //Action
     private var clickAction: (() -> ())?
@@ -91,11 +91,11 @@ public struct BtnCassette: View {
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
         .background((disabled?.wrappedValue ?? true) ? buttonDisableBackgroundColor : buttonBackgroundColor)
-        .cornerRadius(buttonCornerRadius ?? 12)
+        .cornerRadius(buttonCornerRadius)
         .overlay(
-          RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
+          RoundedRectangle(cornerRadius: buttonCornerRadius)
             .inset(by: 0.5)
-            .stroke(buttonBorderColor ?? .black, lineWidth: buttonBorderWidth ?? 1)
+            .stroke(buttonBorderColor, lineWidth: buttonBorderWidth)
         )
     }
     
@@ -110,11 +110,11 @@ public struct BtnCassette: View {
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
         .background((disabled?.wrappedValue ?? true) ? buttonDisableBackgroundColor : buttonBackgroundColor)
-        .cornerRadius(buttonCornerRadius ?? 12)
+        .cornerRadius(buttonCornerRadius)
         .overlay(
-          RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
+          RoundedRectangle(cornerRadius: buttonCornerRadius)
             .inset(by: 0.5)
-            .stroke(buttonBorderColor ?? .black, lineWidth: buttonBorderWidth ?? 1)
+            .stroke(buttonBorderColor, lineWidth: buttonBorderWidth)
         )
     }
     
@@ -164,11 +164,11 @@ public struct BtnCassette: View {
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
         .background((disabled?.wrappedValue ?? true) ? buttonDisableBackgroundColor : buttonBackgroundColor)
-        .cornerRadius(buttonCornerRadius ?? 12)
+        .cornerRadius(buttonCornerRadius)
         .overlay(
-          RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
+          RoundedRectangle(cornerRadius: buttonCornerRadius)
             .inset(by: 0.5)
-            .stroke(buttonBorderColor ?? .black, lineWidth: buttonBorderWidth ?? 1)
+            .stroke(buttonBorderColor, lineWidth: buttonBorderWidth)
         )
     }
     
@@ -254,6 +254,29 @@ extension BtnCassette {
         copy.disabled = disable
         return copy
     }
+}
+
+@available(iOS 13.0, *)
+public final class BtnCassetteConfig {
+    public static var shared = BtnCassetteConfig()
+        
+        private init() {}
+        //Text
+        public var defaultButtonTextColor: Color = .blue
+        public var defaultButtonTextFont: Font = .callout
+        
+        //Design
+        //Border
+        public var defaultButtonCornerRadius: CGFloat = 12
+        public var defaultBorderWidth: CGFloat = 1
+        public var defaultBorderColor: Color = .blue
+        
+        //Background
+        public var defaultButtonBackgroundColor: Color = .white
+        public var defaultbuttonDisableBackgroundColor: Color = .gray
+        
+        //Frame
+        public var defaultButtonHeight: CGFloat = 50
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
