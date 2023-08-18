@@ -103,6 +103,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ## Variable Function
 
+#### Button Mode
+- Set Mode
+```swift
+    // Mode
+    public func setMode(mode: ButtonMode?, setImageType: ImageType? = nil) -> Self {
+        var copy = self
+
+        if mode == .normal {
+            copy.buttonMode = .normal
+            copy.buttonBorderColor = .white
+            copy.buttonBackgroundColor = .black
+            copy.buttonTextColor = .white
+        }
+
+        if mode == .clear {
+            copy.buttonMode = .clear
+            copy.buttonBorderColor = .gray
+            copy.buttonBackgroundColor = .clear
+            copy.buttonTextColor = .gray
+        }
+        
+        if mode == .negative {
+            copy.buttonMode = .negative
+            copy.buttonBorderColor = .red
+            copy.buttonBackgroundColor = .clear
+            copy.buttonTextColor = .red
+        }
+        
+        if mode == .trailingImage {
+            copy.buttonMode = .trailingImage
+            if setImageType == .system {
+                copy.imageType = .system
+            } else if setImageType == .custom {
+                copy.imageType = .custom
+            }
+        }
+        
+        if mode == .leadingImage {
+            copy.buttonMode = .leadingImage
+            if setImageType == .system {
+                copy.imageType = .system
+            } else if setImageType == .custom {
+                copy.imageType = .custom
+            }
+        }
+        
+        if mode == .bindingText {
+            copy.buttonMode = .bindingText
+            
+        }
+
+        return copy
+    }
+```
+
 #### Default Text Setting
 - Set Variable
 ```swift
@@ -115,6 +170,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 - Function
 ```swift
     // Text
+    public func setBindingText(text: Binding<String>?) -> Self {
+        var copy = self
+        copy.bindingText = text
+        return copy
+    }
+
     public func setTitle(text: String?) -> Self {
         var copy = self
         copy.buttonText = text
@@ -133,6 +194,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return copy
     }
 ```
+
+- Binding Mode Example
+```swift
+      BtnCassette()
+          .setMode(mode: .bindingText) // * Set Mode First
+          .setBindingText(text: $viewModel.bindingText) // Here is important!
+          .setBackgroundColor(color: .red)
+          .setBorderWidth(width: 2)
+          .click {
+              viewModel.counting()
+          }
+```
+
+
+https://github.com/ios-carki/Cassette/assets/44957712/952cf6db-f039-4b3f-8316-dae8f7b23252
+
+
 #### Default Border Setting
 - Set Variable
 ```swift
@@ -196,23 +274,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var defaultButtonHeight: CGFloat = 50
 ```
 
-#### Set Mode & Action Function
+#### Action Function
 ```swift
-    // Mode -> ** Still Developing **
-    public func setMode(mode: ButtonMode?) -> Self {
-        var copy = self
-
-        if mode == .normal {
-
-        }
-
-        if mode == .clear {
-            copy.buttonBackgroundColor = .clear
-        }
-
-        return copy
-    }
-    
     // Action
     public func click(_ click: (() -> Void)?) -> Self {
         var copy = self
