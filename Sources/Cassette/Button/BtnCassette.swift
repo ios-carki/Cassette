@@ -124,32 +124,30 @@ public struct BtnCassette: View {
             case .system:
                 switch imageDirection {
                 case .trailing:
-                    Image(systemName: imageName ?? "globe")
                     Text(text ?? "")
                         .foregroundColor(textColor)
                         .font(textFont)
+                    Image(systemName: imageName ?? "globe")
                 case .leading:
+                    Image(systemName: imageName ?? "globe")
                     Text(text ?? "")
                         .foregroundColor(textColor)
                         .font(textFont)
-                    Image(systemName: imageName ?? "globe")
-                    
                 default:
                     EmptyView()
                 }
             case .custom:
                 switch imageDirection {
                 case .trailing:
+                    Text(text ?? "")
+                        .foregroundColor(textColor)
+                        .font(textFont)
                     Image(imageName ?? "")
-                    Text(text ?? "")
-                        .foregroundColor(textColor)
-                        .font(textFont)
                 case .leading:
+                    Image(systemName: imageName ?? "")
                     Text(text ?? "")
                         .foregroundColor(textColor)
                         .font(textFont)
-                    Image(systemName: imageName ?? "")
-                    
                 default:
                     EmptyView()
                 }
