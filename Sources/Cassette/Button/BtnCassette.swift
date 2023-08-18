@@ -10,6 +10,7 @@ import SwiftUI
 @available(iOS 13.0, *)
 public struct BtnCassette: View {
     //Text
+    var bindingText: Binding<String>?
     private var buttonText: String?
     private var buttonTextColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
     private var buttonTextFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
@@ -57,9 +58,15 @@ public struct BtnCassette: View {
                     }
                 }
                 
-                Text(buttonText ?? BtnCassetteConfig.shared.defaultButtonText)
-                    .foregroundColor(buttonTextColor)
-                    .font(buttonTextFont)
+                if buttonMode == .bindingText {
+                    Text(bindingText?.wrappedValue ?? BtnCassetteConfig.shared.defaultButtonText)
+                        .foregroundColor(buttonTextColor)
+                        .font(buttonTextFont)
+                } else {
+                    Text(buttonText ?? BtnCassetteConfig.shared.defaultButtonText)
+                        .foregroundColor(buttonTextColor)
+                        .font(buttonTextFont)
+                }
                 
                 if buttonMode == .trailingImage {
                     if imageType == .system {
@@ -102,9 +109,16 @@ extension BtnCassette {
 
         if mode == .clear {
             copy.buttonMode = .clear
-            copy.buttonBorderColor = .black
+            copy.buttonBorderColor = .gray
             copy.buttonBackgroundColor = .clear
-            copy.buttonTextColor = .black
+            copy.buttonTextColor = .gray
+        }
+        
+        if mode == .negative {
+            copy.buttonMode = .negative
+            copy.buttonBorderColor = .red
+            copy.buttonBackgroundColor = .clear
+            copy.buttonTextColor = .red
         }
         
         if mode == .trailingImage {
@@ -123,6 +137,11 @@ extension BtnCassette {
             } else if setImageType == .custom {
                 copy.imageType = .custom
             }
+        }
+        
+        if mode == .bindingText {
+            copy.buttonMode = .bindingText
+            
         }
 
         return copy
@@ -205,13 +224,14 @@ struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             if #available(iOS 14.0, *) {
-                Color.gray.ignoresSafeArea()
+                Color.yellow.ignoresSafeArea()
             } else {
                 // Fallback on earlier versions
             }
             BtnCassette()
-                .setMode(mode: .trailingImage, setImageType: .system)
-                .setButtonImage(imageName: "globe")
+                .setMode(mode: .leadingImage, setImageType: .system)
+                .setButtonImage(imageName: "pencil")
+                .setTitle(text: "Edit")
                 .padding(.horizontal, 20)
                 
         }

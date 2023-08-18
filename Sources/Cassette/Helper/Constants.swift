@@ -5,7 +5,7 @@
 //  Created by HESSEGG on 2023/08/09.
 //
 
-import Foundation
+import SwiftUI
 
 public struct Constants {
     
@@ -16,6 +16,19 @@ public enum ButtonMode {
     case leadingImage
     case trailingImage
     case clear
+    case negative
+    case bindingText
+    
+    func setBindText(text: Binding<String>?) -> BtnCassette {
+        switch self {
+        case .bindingText:
+            var copy = BtnCassette()
+            copy.bindingText = text
+            return copy
+        default:
+            return BtnCassette()
+        }
+    }
     
     //v2
     case justImage
@@ -24,6 +37,8 @@ public enum ButtonMode {
     case trailingKFImage
     case normalGradient
     case justIcon
+    
+    
     
 }
 
