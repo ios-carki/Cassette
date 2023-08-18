@@ -9,8 +9,9 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 public struct BtnCassette: View {
+    
     //Text
-    private var bindingText: Binding<String>?
+    public var bindingText: Binding<String>?
     private var buttonText: String?
     private var buttonTextColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
     private var buttonTextFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
@@ -95,6 +96,10 @@ public struct BtnCassette: View {
 
 @available(iOS 13.0, *)
 extension BtnCassette {
+    
+    func bindingMode() {
+        
+    }
     
     // Mode
     public func setMode(mode: ButtonMode?, setImageType: ImageType? = nil) -> Self {

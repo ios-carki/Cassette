@@ -26,9 +26,27 @@ public enum ButtonMode {
     case trailingKFImage
     case normalGradient
     case justIcon
-    
-    
-    
+}
+
+extension ButtonMode {
+//    public func setBindingText(text: Binding<String>?) -> Self {
+//        var copy = self
+//        copy.bindingText = text
+//        return copy
+//    }
+    func setBindingText(value: Binding<String>?) -> BtnCassette? {
+        switch self {
+        case .bindingText:
+            // 여기서 value 변수를 사용할 수 있음
+            var copy = BtnCassette()
+            copy.bindingText = value
+            return copy
+        default:
+            break
+        }
+        
+        return nil
+    }
 }
 
 public enum ImageType {
