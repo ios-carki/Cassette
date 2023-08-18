@@ -42,7 +42,7 @@ Cassette is an Custom View library written in SwiftUI.
 .package(url: "https://github.com/ios-carki/Cassette.git", from: "v1.0.2")
 ```
 # Features
-I will guide you on how to use CustomViews in SwiftUI.
+I will guide you on how to use BtnCassette(Button) in SwiftUI.
 
 - Mode 1: normal Button
 
@@ -56,7 +56,8 @@ I will guide you on how to use CustomViews in SwiftUI.
   
 - Mode 3: Image Button
 
-  ![스크린샷 2023-08-18 오후 9 34 49](https://github.com/ios-carki/Cassette/assets/44957712/d0548c60-6ba2-4acd-820a-0fb33bd7764c)
+  ![스크린샷 2023-08-18 오후 10 49 46](https://github.com/ios-carki/Cassette/assets/44957712/cfe4994c-c18f-4df4-844c-a5c73a01dfce)
+
 
 
 
