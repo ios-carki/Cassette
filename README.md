@@ -17,6 +17,7 @@ Cassette is an Custom View library written in SwiftUI.
   - [Button](#button)
     - [Function](#function)
     - [Usage](#usage)
+    - [Set Default Value](#set-default-value)
  
 <!--
   - PorgressView
@@ -39,7 +40,7 @@ Cassette is an Custom View library written in SwiftUI.
 # Installation
 ### Swift Package Manager
 ```swift
-.package(url: "https://github.com/ios-carki/Cassette.git", from: "develop")
+.package(url: "https://github.com/ios-carki/Cassette.git", from: "v1.0.2")
 ```
 # Features
 I will guide you on how to use CustomViews in SwiftUI.
@@ -132,7 +133,7 @@ I will guide you on how to use CustomViews in SwiftUI.
         return copy
     }
 ```
-#### Usage
+## Usage
 - Basic
 ```swift
 struct TestView: View {
@@ -186,6 +187,103 @@ struct TestView: View {
 - Disable Button Result
   
   ![스크린샷 2023-08-18 오후 9 55 41](https://github.com/ios-carki/Cassette/assets/44957712/3c4ffa61-ce2d-48a5-a56b-d92669e4f84d)
+
+## Set Default Value
+If you set default value, you don't need to set customizing function every views
+
+- For Storyboard Interface Project
+  
+```swift
+import UIKit
+
+import Cassette
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+
+        // Here is important!
+        let shared = BtnCassetteConfig.shared
+        shared.defaultButtonTextColor = .blue
+        shared.defaultButtonTextFont = .title2
+        shared.defaultButtonCornerRadius = 20
+        shared.defaultBorderWidth = 2
+        shared.defaultBorderColor = .blue
+        shared.defaultButtonHeight = 80
+        shared.defaultButtonBackgroundColor = .cyan
+        shared.defaultbuttonDisableBackgroundColor = .gray
+
+        
+        return true
+    }
+
+    .
+    .
+    .
+
+}
+
+
+```
+
+- For SwiftUI Interface Project
+
+```swift
+import SwiftUI
+
+import Cassette
+
+@main
+struct MyProjectApp: App {
+
+    // Here is important!
+    init() {
+        let shared = BtnCassetteConfig.shared
+        shared.defaultButtonTextColor = .blue
+        shared.defaultButtonTextFont = .title2
+        shared.defaultButtonCornerRadius = 20
+        shared.defaultBorderWidth = 2
+        shared.defaultBorderColor = .blue
+        shared.defaultButtonHeight = 80
+        shared.defaultButtonBackgroundColor = .cyan
+        shared.defaultbuttonDisableBackgroundColor = .gray
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+```
+
+- With Using Default Variable
+```swift
+import SwiftUI
+
+import Cassette
+
+struct TestView: View {
+    @StateObject private var viewModel = TestViewModel()
+    var body: some View {
+        VStack(spacing: 20) {
+            BtnCassette(buttonMode: .normal(text: "Normal Button"))
+                .setDisable(disable: $viewModel.buttonDisable)
+                .click {
+                    viewModel.buttonDisable.toggle()
+                }
+            
+        }.padding(.horizontal, 16)
+    }
+}
+```
+
+The result is the same as above, but the code is much shorter.
+
+![스크린샷 2023-08-18 오후 10 34 34](https://github.com/ios-carki/Cassette/assets/44957712/12d76ad8-06d5-42dc-b383-9a5d6469295f)
 
 <!--
 ```swift
