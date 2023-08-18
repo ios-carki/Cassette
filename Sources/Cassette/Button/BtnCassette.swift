@@ -90,7 +90,7 @@ public struct BtnCassette: View {
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
-        .background(buttonBackgroundColor)
+        .background((disabled?.wrappedValue ?? true) ? buttonDisableBackgroundColor : buttonBackgroundColor)
         .cornerRadius(buttonCornerRadius ?? 12)
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
@@ -109,7 +109,7 @@ public struct BtnCassette: View {
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
-        .background(buttonBackgroundColor)
+        .background((disabled?.wrappedValue ?? true) ? buttonDisableBackgroundColor : buttonBackgroundColor)
         .cornerRadius(buttonCornerRadius ?? 12)
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
@@ -163,7 +163,7 @@ public struct BtnCassette: View {
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
-        .background(buttonBackgroundColor)
+        .background((disabled?.wrappedValue ?? true) ? buttonDisableBackgroundColor : buttonBackgroundColor)
         .cornerRadius(buttonCornerRadius ?? 12)
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
