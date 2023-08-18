@@ -10,170 +10,196 @@ import SwiftUI
 @available(iOS 13.0, *)
 public struct BtnCassette: View {
     
+    public enum ImageDirection {
+        case trailing
+        case leading
+    }
+    
+    public enum ImageType {
+        case system
+        case custom
+    }
+    
+    public enum ButtonMode {
+        case normal(text: String)
+        case imageButton(text: String, imageDirection: ImageDirection, imageType: ImageType, imageName: String)
+        case bindingText(text: Binding<String>)
+    }
+    
+    public var buttonMode: ButtonMode
+    public var imageDirection: ImageDirection?
+    public var imageType: ImageType?
+    
     //Text
-    public var bindingText: Binding<String>?
-    private var buttonText: String?
-    private var buttonTextColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
-    private var buttonTextFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
+    private var text: String?
+    private var bindingText: Binding<String>?
+    private var textColor: Color?
+    private var textFont: Font?
+    
+    //Image
+    private var imageName: String?
     
     //Design
     //Border
-    private var buttonCornerRadius: CGFloat = BtnCassetteConfig.shared.defaultButtonCornerRadius
-    private var buttonBorderWidth: CGFloat = BtnCassetteConfig.shared.defaultBorderWidth
-    private var buttonBorderColor: Color = BtnCassetteConfig.shared.defaultBorderColor
+    private var buttonCornerRadius: CGFloat?
+    private var buttonBorderWidth: CGFloat?
+    private var buttonBorderColor: Color?
     
     //Background
-    private var buttonBackgroundColor: Color = BtnCassetteConfig.shared.defaultButtonBackgroundColor
-    private var buttonDisableBackgroundColor: Color = BtnCassetteConfig.shared.defaultbuttonDisableBackgroundColor
+    private var buttonBackgroundColor: Color?
+    private var buttonDisableBackgroundColor: Color?
     
     //Frame
-    private var buttonHeight: CGFloat = BtnCassetteConfig.shared.defaultButtonHeight
+    private var buttonHeight: CGFloat?
     
     //Action
     private var clickAction: (() -> ())?
     private var disabled : Binding<Bool>?
     
-    //Setting
-    private var buttonMode: ButtonMode?
-    private var imageType: ImageType?
-    
-    //Image
-    private var buttonImage: String?
-    
-    public init() {
+//    public init() {
+//        buttonMode = .normal(text ?? "")
+//    }
+    //Normal
+    public init(buttonMode: ButtonMode) {
+        self.buttonMode = buttonMode
         
+        switch self.buttonMode {
+        case .normal(let text):
+            self.text = text
+            
+        case .bindingText(let text):
+            self.bindingText = text
+            
+        case .imageButton(let text, let imageDirection, let imageType, let imageName):
+            self.text = text
+            self.imageDirection = imageDirection
+            self.imageType = imageType
+            self.imageName = imageName
+            
+        }
+    }
+    
+    public var normalButton: some View {
+        
+        HStack(alignment: .center, spacing: 10) {
+            Text(text ?? "")
+                .foregroundColor(textColor)
+                .font(textFont)
+        }
+        .padding(.horizontal, 22)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .frame(height: buttonHeight, alignment: .center)
+        .background(buttonBackgroundColor)
+        .cornerRadius(12)
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .inset(by: 0.5)
+            .stroke(.black, lineWidth: 1)
+        )
+    }
+    
+    public var bindingTextButton: some View {
+        HStack(alignment: .center, spacing: 10) {
+            Text(bindingText?.wrappedValue ?? "")
+                .foregroundColor(textColor)
+                .font(textFont)
+        }
+        .padding(.horizontal, 22)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .frame(height: buttonHeight, alignment: .center)
+        .background(Color(red: 0.96, green: 0.37, blue: 0.13))
+        .cornerRadius(12)
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .inset(by: 0.5)
+            .stroke(.black, lineWidth: 1)
+        )
+    }
+    
+    public var imageButton: some View {
+        HStack(alignment: .center, spacing: 10) {
+            switch imageType {
+            case .system:
+                switch imageDirection {
+                case .trailing:
+                    Image(systemName: imageName ?? "globe")
+                    Text(text ?? "")
+                        .foregroundColor(textColor)
+                        .font(textFont)
+                case .leading:
+                    Text(text ?? "")
+                        .foregroundColor(textColor)
+                        .font(textFont)
+                    Image(systemName: imageName ?? "globe")
+                    
+                default:
+                    EmptyView()
+                }
+            case .custom:
+                switch imageDirection {
+                case .trailing:
+                    Image(imageName ?? "")
+                    Text(text ?? "")
+                        .foregroundColor(textColor)
+                        .font(textFont)
+                case .leading:
+                    Text(text ?? "")
+                        .foregroundColor(textColor)
+                        .font(textFont)
+                    Image(systemName: imageName ?? "")
+                    
+                default:
+                    EmptyView()
+                }
+                
+            default:
+                EmptyView()
+            }
+            
+        }
+        .padding(.horizontal, 22)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .frame(height: buttonHeight, alignment: .center)
+        .background(Color(red: 0.96, green: 0.37, blue: 0.13))
+        .cornerRadius(12)
+        .overlay(
+          RoundedRectangle(cornerRadius: 12)
+            .inset(by: 0.5)
+            .stroke(.black, lineWidth: 1)
+        )
     }
     
     public var body: some View {
         Button {
             clickAction?()
         } label: {
-            HStack(alignment: .center, spacing: 10) {
-                if buttonMode == .leadingImage {
-                    if imageType == .system {
-                        Image(systemName: buttonImage ?? "Error: Check your image name")
-                            .foregroundColor(.white)
-                    } else if imageType == .custom {
-                        Image(buttonImage ?? "Error: Check your image name")
-                            .foregroundColor(.white)
-                    }
-                }
-                
-                if buttonMode == .bindingText {
-                    Text(bindingText?.wrappedValue ?? BtnCassetteConfig.shared.defaultButtonText)
-                        .foregroundColor(buttonTextColor)
-                        .font(buttonTextFont)
-                } else {
-                    Text(buttonText ?? BtnCassetteConfig.shared.defaultButtonText)
-                        .foregroundColor(buttonTextColor)
-                        .font(buttonTextFont)
-                }
-                
-                if buttonMode == .trailingImage {
-                    if imageType == .system {
-                        Image(systemName: buttonImage ?? "Error: Check your image name")
-                            .foregroundColor(.white)
-                    } else if imageType == .custom {
-                        Image(buttonImage ?? "Error: Check your image name")
-                            .foregroundColor(.white)
-                    }
-                }
+            switch buttonMode {
+            case .normal:
+                normalButton
+            case .bindingText:
+                bindingTextButton
+            case .imageButton:
+                imageButton
             }
-            .padding(.horizontal, 22)
-            .padding(.vertical, 12)
-            .frame(height: buttonHeight, alignment: .center)
-            .frame(maxWidth: .infinity)
-            .background((disabled?.wrappedValue ?? false) ? buttonDisableBackgroundColor : buttonBackgroundColor)
-            .cornerRadius(buttonCornerRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: buttonCornerRadius)
-                    .inset(by: 0.5)
-                    .stroke(buttonBorderColor, lineWidth: buttonBorderWidth)
-            )
-        }.disabled(disabled?.wrappedValue ?? false)
+        }
+        .disabled(disabled?.wrappedValue ?? false)
     }
 }
 
-@available(iOS 13.0, *)
 extension BtnCassette {
-    
-    func bindingMode() {
-        
-    }
-    
-    // Mode
-    public func setMode(mode: ButtonMode?, setImageType: ImageType? = nil) -> Self {
-        var copy = self
-
-        if mode == .normal {
-            copy.buttonMode = .normal
-            copy.buttonBorderColor = .white
-            copy.buttonBackgroundColor = .black
-            copy.buttonTextColor = .white
-        }
-
-        if mode == .clear {
-            copy.buttonMode = .clear
-            copy.buttonBorderColor = .gray
-            copy.buttonBackgroundColor = .clear
-            copy.buttonTextColor = .gray
-        }
-        
-        if mode == .negative {
-            copy.buttonMode = .negative
-            copy.buttonBorderColor = .red
-            copy.buttonBackgroundColor = .clear
-            copy.buttonTextColor = .red
-        }
-        
-        if mode == .trailingImage {
-            copy.buttonMode = .trailingImage
-            if setImageType == .system {
-                copy.imageType = .system
-            } else if setImageType == .custom {
-                copy.imageType = .custom
-            }
-        }
-        
-        if mode == .leadingImage {
-            copy.buttonMode = .leadingImage
-            if setImageType == .system {
-                copy.imageType = .system
-            } else if setImageType == .custom {
-                copy.imageType = .custom
-            }
-        }
-        
-        if mode == .bindingText {
-            copy.buttonMode = .bindingText
-            
-        }
-
-        return copy
-    }
-    
     // Text
-    public func setBindingText(text: Binding<String>?) -> Self {
-        var copy = self
-        copy.bindingText = text
-        return copy
-    }
-    
-    public func setTitle(text: String?) -> Self {
-        var copy = self
-        copy.buttonText = text
-        return copy
-    }
-    
     public func setTitleTextColor(color: Color) -> Self {
         var copy = self
-        copy.buttonTextColor = color
+        copy.textColor = color
         return copy
     }
     
     public func setTitleTextFont(font: Font) -> Self {
         var copy = self
-        copy.buttonTextFont = font
+        copy.textFont = font
         return copy
     }
     
@@ -194,6 +220,12 @@ extension BtnCassette {
     public func setBorderColor(color: Color) -> Self {
         var copy = self
         copy.buttonBorderColor = color
+        return copy
+    }
+    
+    public func setButtonHeight(height: CGFloat) -> Self {
+        var copy = self
+        copy.buttonHeight = height
         return copy
     }
     
@@ -222,28 +254,17 @@ extension BtnCassette {
         copy.disabled = disable
         return copy
     }
-    
-    //Setting
-    public func setButtonImage(imageName: String) -> Self {
-        var copy = self
-        copy.buttonImage = imageName
-        return copy
-    }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             if #available(iOS 14.0, *) {
-                Color.yellow.ignoresSafeArea()
+                Color.white.ignoresSafeArea()
             } else {
                 // Fallback on earlier versions
             }
-            BtnCassette()
-                .setMode(mode: .leadingImage, setImageType: .system)
-                .setButtonImage(imageName: "pencil")
-                .setTitle(text: "Edit")
-                .padding(.horizontal, 20)
+            BtnCassette(buttonMode: .normal(text: "asdf"))
                 
         }
     }
