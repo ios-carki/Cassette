@@ -95,7 +95,7 @@ public struct BtnCassette: View {
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
             .inset(by: 0.5)
-            .stroke(.black, lineWidth: buttonBorderWidth ?? 1)
+            .stroke(buttonBorderColor ?? .black, lineWidth: buttonBorderWidth ?? 1)
         )
     }
     
@@ -114,7 +114,7 @@ public struct BtnCassette: View {
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
             .inset(by: 0.5)
-            .stroke(.black, lineWidth: buttonBorderWidth ?? 1)
+            .stroke(buttonBorderColor ?? .black, lineWidth: buttonBorderWidth ?? 1)
         )
     }
     
@@ -168,7 +168,7 @@ public struct BtnCassette: View {
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius ?? 12)
             .inset(by: 0.5)
-            .stroke(.black, lineWidth: buttonBorderWidth ?? 1)
+            .stroke(buttonBorderColor ?? .black, lineWidth: buttonBorderWidth ?? 1)
         )
     }
     
