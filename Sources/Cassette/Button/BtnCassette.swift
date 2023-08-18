@@ -10,7 +10,7 @@ import SwiftUI
 @available(iOS 13.0, *)
 public struct BtnCassette: View {
     //Text
-    var bindingText: Binding<String>?
+    private var bindingText: Binding<String>?
     private var buttonText: String?
     private var buttonTextColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
     private var buttonTextFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
@@ -148,6 +148,12 @@ extension BtnCassette {
     }
     
     // Text
+    public func setBindingText(text: Binding<String>?) -> Self {
+        var copy = self
+        copy.bindingText = text
+        return copy
+    }
+    
     public func setTitle(text: String?) -> Self {
         var copy = self
         copy.buttonText = text
