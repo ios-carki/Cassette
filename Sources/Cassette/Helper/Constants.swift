@@ -19,17 +19,6 @@ public enum ButtonMode {
     case negative
     case bindingText
     
-    func setBindText(text: Binding<String>?) -> BtnCassette {
-        switch self {
-        case .bindingText:
-            var copy = BtnCassette()
-            copy.bindingText = text
-            return copy
-        default:
-            return BtnCassette()
-        }
-    }
-    
     //v2
     case justImage
     case justKFImage
