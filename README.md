@@ -6,7 +6,7 @@
 inspired by [Esat GÖZCÜ](https://github.com/esatgozcu/SwiftUI-Custom-TextField) CustomTextField 🙇🏻‍♂️
 
 # Cassette
-⚠️ It's still a developing Lib. (Last Update: 2023.08.21)
+⚠️ It's still a developing Lib. (Last Update: 2023.09.08)
 
 Cassette is an Custom View library written in SwiftUI.
 
@@ -15,6 +15,10 @@ Cassette is an Custom View library written in SwiftUI.
 - [Installation](#installation)
 - [features](#features)
   - [Button](#button)
+    - [Usage](#usage)
+    - [Set Default Value](#set-default-value)
+   
+  - [Switch](#switch)
     - [Usage](#usage)
     - [Set Default Value](#set-default-value)
  
@@ -213,6 +217,192 @@ struct TestView: View {
 The result is the same as above, but the code is much shorter.
 
 ![스크린샷 2023-08-18 오후 10 34 34](https://github.com/ios-carki/Cassette/assets/44957712/12d76ad8-06d5-42dc-b383-9a5d6469295f)
+
+# Switch
+## Usage
+- Basic
+```swift
+SwitchCassette(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?)
+```
+
+- Customizing
+```swift
+import SwiftUI
+
+import Cassette
+
+struct ContentView: View {
+    
+    @StateObject private var viewModel = ContentViewModeel()
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                SwitchCassette(text: $viewModel.text, isOn: $viewModel.isOn, spacing: 12)
+                    .setSwitchControllerColor(color: .blue)
+                    .setTitleTextOffColor(color: .blue)
+                    .setTitleTextOnColor(color: .red)
+                    .setSwitchOnBackgroundColor(color: .indigo)
+                    .insertSpacer(true)
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+}
+```
+
+<img width="266" alt="스크린샷 2023-09-08 오후 2 44 24" src="https://github.com/ios-carki/Cassette/assets/44957712/701470e8-ee56-4f7e-917c-c5dc991dd832">
+
+---
+
+```swift
+import SwiftUI
+
+import Cassette
+
+struct ContentView: View {
+    
+    @StateObject private var viewModel = ContentViewModeel()
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                SwitchCassette(text: $viewModel.text, isOn: $viewModel.isOn, spacing: 12)
+                    .setSwitchControllerColor(color: .blue)
+                    .setTitleTextOffColor(color: .blue)
+                    .setTitleTextOnColor(color: .red)
+                    .setSwitchOnBackgroundColor(color: .indigo)
+                    .insertSpacer(false) // here is changed!
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+}
+```
+
+<img width="274" alt="스크린샷 2023-09-08 오후 2 45 46" src="https://github.com/ios-carki/Cassette/assets/44957712/8b458160-25f2-47a4-9db2-7cc4f434746d">
+
+---
+
+```swift
+import SwiftUI
+
+import Cassette
+
+struct ContentView: View {
+    
+    @StateObject private var viewModel = ContentViewModeel()
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                SwitchCassette(text: $viewModel.text, isOn: $viewModel.isOn, spacing: 100) // spacing value changed!
+                    .setSwitchControllerColor(color: .blue)
+                    .setTitleTextOffColor(color: .blue)
+                    .setTitleTextOnColor(color: .red)
+                    .setSwitchOnBackgroundColor(color: .indigo)
+                    .insertSpacer(false)
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+}
+```
+
+<img width="268" alt="스크린샷 2023-09-08 오후 2 46 57" src="https://github.com/ios-carki/Cassette/assets/44957712/b396f564-3a2e-41f6-967a-fb3f1dd1df9d">
+
+## Set Default Value
+If you set default value, you don't need to set customizing function every views
+
+- For Storyboard Interface Project
+  
+```swift
+import UIKit
+
+import Cassette
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+
+        // Here is important!
+        let shared = SwitchCassetteConfig.shared
+        shared.defaultSwitchOffTextColor = .blue
+        shared.defaultSwitchOnTextColor = .red
+        shared.defaultSwitchTextFont = .callout
+        shared.defaultSwitchOnBackgroundColor = .indigo
+        shared.defaultSwitchOffBackgroundColor = .gray
+        shared.defaultSwitchControllerColor = .blue
+
+        
+        return true
+    }
+
+    .
+    .
+    .
+
+}
+
+
+```
+
+- For SwiftUI Interface Project
+
+```swift
+import SwiftUI
+
+import Cassette
+
+@main
+struct MyProjectApp: App {
+
+    // Here is important!
+    init() {
+        let shared = SwitchCassetteConfig.shared
+        shared.defaultSwitchOffTextColor = .blue
+        shared.defaultSwitchOnTextColor = .red
+        shared.defaultSwitchTextFont = .callout
+        shared.defaultSwitchOnBackgroundColor = .indigo
+        shared.defaultSwitchOffBackgroundColor = .gray
+        shared.defaultSwitchControllerColor = .blue
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+```
+- With Using Default Variable
+```swift
+import SwiftUI
+
+import Cassette
+
+struct ContentView: View {
+    
+    @StateObject private var viewModel = ContentViewModeel()
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                SwitchCassette(text: $viewModel.text, isOn: $viewModel.isOn, spacing: 100)
+                    .insertSpacer(false)
+            }
+            
+        }
+        .padding(.horizontal, 16)
+    }
+}
+```
+
+The result is the same as above, but the code is much shorter.
+
+<img width="268" alt="스크린샷 2023-09-08 오후 2 54 53" src="https://github.com/ios-carki/Cassette/assets/44957712/f85eec65-d4c8-4013-a173-a4d0187d20da">
 
 <!--
 ```swift
