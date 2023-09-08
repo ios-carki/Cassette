@@ -27,24 +27,41 @@ public struct SwitchCassette: View {
 
             Spacer()
 
-            Button(action: {
-                withAnimation {
-                    isOn?.wrappedValue.toggle()
+//            Button(action: {
+//                withAnimation {
+//                    isOn?.wrappedValue.toggle()
+//                }
+//            }) {
+//                RoundedRectangle(cornerRadius: 16)
+//                    .frame(width: 50, height: 30)
+//                    .foregroundColor((isOn?.wrappedValue ?? false) ? .green : .gray) // 켜진 상태의 배경색 변경
+//                    .overlay(
+//                        Circle()
+//                            .frame(width: 26, height: 26)
+//                            .foregroundColor(.white)
+//                            .offset(x: (isOn?.wrappedValue ?? false) ? 12 : -12)
+//                            .animation(.easeInOut)
+//                            .padding((isOn?.wrappedValue ?? false) ? .trailing : .leading, 4)
+//                    )
+//                    .padding(2)
+//            }
+            RoundedRectangle(cornerRadius: 16)
+                .frame(width: 50, height: 30)
+                .foregroundColor((isOn?.wrappedValue ?? false) ? .green : .gray) // 켜진 상태의 배경색 변경
+                .overlay(
+                    Circle()
+                        .frame(width: 26, height: 26)
+                        .foregroundColor(.white)
+                        .offset(x: (isOn?.wrappedValue ?? false) ? 12 : -12)
+                        .animation(.easeInOut)
+                        .padding((isOn?.wrappedValue ?? false) ? .trailing : .leading, 4)
+                )
+                .padding(2)
+                .onTapGesture {
+                    withAnimation {
+                        isOn?.wrappedValue.toggle()
+                    }
                 }
-            }) {
-                RoundedRectangle(cornerRadius: 16)
-                    .frame(width: 50, height: 30)
-                    .foregroundColor((isOn?.wrappedValue ?? false) ? .green : .gray) // 켜진 상태의 배경색 변경
-                    .overlay(
-                        Circle()
-                            .frame(width: 26, height: 26)
-                            .foregroundColor(.white)
-                            .offset(x: (isOn?.wrappedValue ?? false) ? 12 : -12)
-                            .animation(.easeInOut)
-                            .padding((isOn?.wrappedValue ?? false) ? .trailing : .leading, 4)
-                    )
-                    .padding(2)
-            }
         }
     }
 }
