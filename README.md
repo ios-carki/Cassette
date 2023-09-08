@@ -15,12 +15,12 @@ Cassette is an Custom View library written in SwiftUI.
 - [Installation](#installation)
 - [features](#features)
   - [Button](#button)
-    - [Usage](#usage)
-    - [Set Default Value](#set-default-value)
+    - [Usage](#button-usage)
+    - [Set Default Value](#button-set-default-value)
    
   - [Switch](#switch)
-    - [Usage](#usage)
-    - [Set Default Value](#set-default-value)
+    - [Usage](#switch-usage)
+    - [Set Default Value](#switch-set-default-value)
  
 <!--
   - PorgressView
@@ -66,7 +66,7 @@ I will guide you on how to use BtnCassette(Button) in SwiftUI.
 
 
 # Button
-## Usage
+## Button Usage
 - Basic
 ```swift
 struct TestView: View {
@@ -121,7 +121,7 @@ struct TestView: View {
   
   ![스크린샷 2023-08-18 오후 9 55 41](https://github.com/ios-carki/Cassette/assets/44957712/3c4ffa61-ce2d-48a5-a56b-d92669e4f84d)
 
-## Set Default Value
+## Button Set Default Value
 If you set default value, you don't need to set customizing function every views
 
 - For Storyboard Interface Project
@@ -219,7 +219,7 @@ The result is the same as above, but the code is much shorter.
 ![스크린샷 2023-08-18 오후 10 34 34](https://github.com/ios-carki/Cassette/assets/44957712/12d76ad8-06d5-42dc-b383-9a5d6469295f)
 
 # Switch
-## Usage
+## Switch Usage
 - Basic
 ```swift
 SwitchCassette(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?)
@@ -311,7 +311,7 @@ struct ContentView: View {
 
 <img width="268" alt="스크린샷 2023-09-08 오후 2 46 57" src="https://github.com/ios-carki/Cassette/assets/44957712/b396f564-3a2e-41f6-967a-fb3f1dd1df9d">
 
-## Set Default Value
+## Switch Set Default Value
 If you set default value, you don't need to set customizing function every views
 
 - For Storyboard Interface Project
