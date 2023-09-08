@@ -9,8 +9,18 @@ import SwiftUI
 
 public struct SwitchCassette: View {
     
-    public var bindingTitleText: Binding<String>?
-    public var titleTextColor: Color = SwitchCassetteConfig.shared.defaultSwitchTextColor
+    //Text
+    private var bindingTitleText: Binding<String>?
+    private var titleTextOnColor: Color = SwitchCassetteConfig.shared.defaultSwitchOnTextColor
+    private var titleTextOffColor: Color = SwitchCassetteConfig.shared.defaultSwitchOffTextColor
+    private var titleTextFont: Font = SwitchCassetteConfig.shared.defaultSwitchTextFont
+    
+    //Switch
+    private var switchOffBackgroundColor: Color = SwitchCassetteConfig.shared.defaultSwitchOffBackgroundColor
+    private var switchOnBackgroundColor: Color = SwitchCassetteConfig.shared.defaultSwitchOnBackgroundColor
+    private var switchControllerColor: Color = SwitchCassetteConfig.shared.defaultSwitchControllerColor
+    
+    //Status
     private var isOn: Binding<Bool>?
     
     private var height: CGFloat?
@@ -23,35 +33,18 @@ public struct SwitchCassette: View {
     public var body: some View {
         HStack {
             Text(bindingTitleText?.wrappedValue ?? "")
-                .foregroundColor(isOn?.wrappedValue ?? false ? .green : .red) // 켜진 상태의 텍스트 색상 변경
+                .foregroundColor((isOn?.wrappedValue ?? false) ? titleTextOnColor : titleTextOffColor)
+                .font(titleTextFont)
 
             Spacer()
-
-//            Button(action: {
-//                withAnimation {
-//                    isOn?.wrappedValue.toggle()
-//                }
-//            }) {
-//                RoundedRectangle(cornerRadius: 16)
-//                    .frame(width: 50, height: 30)
-//                    .foregroundColor((isOn?.wrappedValue ?? false) ? .green : .gray) // 켜진 상태의 배경색 변경
-//                    .overlay(
-//                        Circle()
-//                            .frame(width: 26, height: 26)
-//                            .foregroundColor(.white)
-//                            .offset(x: (isOn?.wrappedValue ?? false) ? 12 : -12)
-//                            .animation(.easeInOut)
-//                            .padding((isOn?.wrappedValue ?? false) ? .trailing : .leading, 4)
-//                    )
-//                    .padding(2)
-//            }
+            
             RoundedRectangle(cornerRadius: 16)
                 .frame(width: 50, height: 30)
-                .foregroundColor((isOn?.wrappedValue ?? false) ? .green : .gray) // 켜진 상태의 배경색 변경
+                .foregroundColor((isOn?.wrappedValue ?? false) ? switchOnBackgroundColor : switchOffBackgroundColor)
                 .overlay(
                     Circle()
                         .frame(width: 26, height: 26)
-                        .foregroundColor(.white)
+                        .foregroundColor(switchControllerColor)
                         .offset(x: (isOn?.wrappedValue ?? false) ? 12 : -12)
                         .animation(.easeInOut)
                         .padding((isOn?.wrappedValue ?? false) ? .trailing : .leading, 4)
@@ -67,9 +60,41 @@ public struct SwitchCassette: View {
 }
 
 extension SwitchCassette {
-    public func setTitleText(text: Binding<String>) -> Self {
+    //Text
+    public func setTitleTextOnColor(color: Color) -> Self {
         var copy = self
-        copy.bindingTitleText = text
+        copy.titleTextOnColor = color
+        return copy
+    }
+    
+    public func setTitleTextOffColor(color: Color) -> Self {
+        var copy = self
+        copy.titleTextOffColor = color
+        return copy
+    }
+    
+    public func setTitleTextFont(font: Font) -> Self {
+        var copy = self
+        copy.titleTextFont = font
+        return copy
+    }
+    
+    //Switch
+    public func setSwitchOffBackgroundColor(color: Color) -> Self {
+        var copy = self
+        copy.switchOffBackgroundColor = color
+        return copy
+    }
+    
+    public func setSwitchOnBackgroundColor(color: Color) -> Self {
+        var copy = self
+        copy.switchOnBackgroundColor = color
+        return copy
+    }
+    
+    public func setSwitchControllerColor(color: Color) -> Self {
+        var copy = self
+        copy.switchControllerColor = color
         return copy
     }
 }
@@ -81,7 +106,14 @@ public final class SwitchCassetteConfig {
     private init() { }
     
     //Text
-    public var defaultSwitchTextColor: Color = .black
+    public var defaultSwitchOffTextColor: Color = .black
+    public var defaultSwitchOnTextColor: Color = .black
+    public var defaultSwitchTextFont: Font = .callout
+    
+    //Switch
+    public var defaultSwitchOnBackgroundColor: Color = .green
+    public var defaultSwitchOffBackgroundColor: Color = .gray
+    public var defaultSwitchControllerColor: Color = .white
 }
 
 public struct SwitchCassette_Previews: PreviewProvider {
