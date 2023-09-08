@@ -277,7 +277,7 @@ public final class BtnCassetteConfig {
         public var defaultButtonHeight: CGFloat = 50
 }
 
-struct SwiftUIView_Previews: PreviewProvider {
+struct BtnCassette_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             if #available(iOS 14.0, *) {
