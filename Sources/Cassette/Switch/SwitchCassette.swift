@@ -10,7 +10,7 @@ import SwiftUI
 public struct SwitchCassette: View {
     
     //Text
-    private var bindingTitleText: Binding<String>
+    private var bindingTitleText: Binding<String>?
     private var titleTextOnColor: Color = SwitchCassetteConfig.shared.defaultSwitchOnTextColor
     private var titleTextOffColor: Color = SwitchCassetteConfig.shared.defaultSwitchOffTextColor
     private var titleTextFont: Font = SwitchCassetteConfig.shared.defaultSwitchTextFont
@@ -27,7 +27,7 @@ public struct SwitchCassette: View {
     private var insertSpacer: Bool?
     private var spacing: CGFloat?
     
-    public init(text: Binding<String>, isOn: Binding<Bool>, spacing: CGFloat?) {
+    public init(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?) {
         self.bindingTitleText = text
         self.isOn = isOn
         self.spacing = spacing
@@ -35,9 +35,11 @@ public struct SwitchCassette: View {
     
     public var body: some View {
         HStack(spacing: spacing) {
-            Text(bindingTitleText.wrappedValue)
-                .foregroundColor(isOn.wrappedValue ? titleTextOnColor : titleTextOffColor)
-                .font(titleTextFont)
+            if (bindingTitleText?.wrappedValue != nil) {
+                Text(bindingTitleText?.wrappedValue ?? "")
+                    .foregroundColor(isOn.wrappedValue ? titleTextOnColor : titleTextOffColor)
+                    .font(titleTextFont)
+            }
 
             if insertSpacer ?? false {
                 Spacer()
@@ -130,6 +132,6 @@ public final class SwitchCassetteConfig {
 
 public struct SwitchCassette_Previews: PreviewProvider {
     public static var previews: some View {
-        SwitchCassette(text: .constant("asd"), isOn: .constant(false), spacing: nil)
+        SwitchCassette(text: nil, isOn: .constant(false), spacing: nil)
     }
 }
