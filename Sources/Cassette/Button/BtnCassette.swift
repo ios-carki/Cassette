@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(macOS 11.0, *)
 @available(iOS 13.0, *)
 public struct BtnCassette: View {
     
@@ -187,6 +188,7 @@ public struct BtnCassette: View {
     }
 }
 
+@available(macOS 11.0, *)
 extension BtnCassette {
     // Text
     public func setTitleTextColor(color: Color) -> Self {
@@ -254,6 +256,7 @@ extension BtnCassette {
     }
 }
 
+@available(macOS 11.0, *)
 @available(iOS 13.0, *)
 public final class BtnCassetteConfig {
     public static var shared = BtnCassetteConfig()
@@ -277,6 +280,7 @@ public final class BtnCassetteConfig {
         public var defaultButtonHeight: CGFloat = 50
 }
 
+@available(macOS 11.0, *)
 struct BtnCassette_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {

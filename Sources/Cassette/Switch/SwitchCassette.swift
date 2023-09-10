@@ -7,7 +7,13 @@
 
 import SwiftUI
 
+@available(macOS 10.15, *)
 public struct SwitchCassette: View {
+    
+    public enum SwitchType {
+        case normal(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?)
+        case rectangle(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?)
+    }
     
     //Text
     private var bindingTitleText: Binding<String>?
@@ -27,12 +33,70 @@ public struct SwitchCassette: View {
     private var insertSpacer: Bool?
     private var spacing: CGFloat?
     
-    public init(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?) {
-        self.bindingTitleText = text
-        self.isOn = isOn
-        self.spacing = spacing
+    //Type
+    private var switchType: SwitchType
+    
+//    public init(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?) {
+//        self.bindingTitleText = text
+//        self.isOn = isOn
+//        self.spacing = spacing
+//    }
+    
+    public init(switchType: SwitchType) {
+        self.switchType = switchType
+        
+        switch self.switchType {
+        case .normal(let text, let isOn, let spacing):
+            self.bindingTitleText = text
+            self.isOn = isOn
+            self.spacing = spacing
+            
+        case .rectangle(let text, let isOn, let spacing):
+            self.bindingTitleText = text
+            self.isOn = isOn
+            self.spacing = spacing
+        }
     }
     
+    public var normal: some View {
+        RoundedRectangle(cornerRadius: 16)
+            .frame(width: 50, height: 30)
+            .foregroundColor(isOn.wrappedValue ? switchOnBackgroundColor : switchOffBackgroundColor)
+            .overlay(
+                Circle()
+                    .frame(width: 26, height: 26)
+                    .foregroundColor(switchControllerColor)
+                    .offset(x: isOn.wrappedValue ? 12 : -12)
+                    .animation(.easeInOut)
+                    .padding(isOn.wrappedValue ? .trailing : .leading, 4)
+            )
+            .padding(2)
+            .onTapGesture {
+                withAnimation {
+                    isOn.wrappedValue.toggle()
+                }
+            }
+    }
+    
+    public var rectangle: some View {
+        RoundedRectangle(cornerRadius: 4)
+            .frame(width: 50, height: 30)
+            .foregroundColor(isOn.wrappedValue ? switchOnBackgroundColor : switchOffBackgroundColor)
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .frame(width: 26, height: 26)
+                    .foregroundColor(switchControllerColor)
+                    .offset(x: isOn.wrappedValue ? 12 : -12)
+                    .animation(.easeInOut)
+                    .padding(isOn.wrappedValue ? .trailing : .leading, 4)
+            )
+            .padding(2)
+            .onTapGesture {
+                withAnimation {
+                    isOn.wrappedValue.toggle()
+                }
+            }
+    }
     public var body: some View {
         HStack(spacing: spacing) {
             if (bindingTitleText?.wrappedValue != nil) {
@@ -45,27 +109,17 @@ public struct SwitchCassette: View {
                 Spacer()
             }
             
-            RoundedRectangle(cornerRadius: 16)
-                .frame(width: 50, height: 30)
-                .foregroundColor(isOn.wrappedValue ? switchOnBackgroundColor : switchOffBackgroundColor)
-                .overlay(
-                    Circle()
-                        .frame(width: 26, height: 26)
-                        .foregroundColor(switchControllerColor)
-                        .offset(x: isOn.wrappedValue ? 12 : -12)
-                        .animation(.easeInOut)
-                        .padding(isOn.wrappedValue ? .trailing : .leading, 4)
-                )
-                .padding(2)
-                .onTapGesture {
-                    withAnimation {
-                        isOn.wrappedValue.toggle()
-                    }
-                }
+            switch switchType {
+            case .normal:
+                normal
+            case .rectangle:
+                rectangle
+            }
         }
     }
 }
 
+@available(macOS 10.15, *)
 extension SwitchCassette {
     //Text
     public func setTitleTextOnColor(color: Color) -> Self {
@@ -113,6 +167,7 @@ extension SwitchCassette {
     }
 }
 
+@available(macOS 10.15, *)
 @available(iOS 13.0, *)
 public final class SwitchCassetteConfig {
     public static var shared = SwitchCassetteConfig()
@@ -130,8 +185,12 @@ public final class SwitchCassetteConfig {
     public var defaultSwitchControllerColor: Color = .white
 }
 
+@available(macOS 10.15, *)
 public struct SwitchCassette_Previews: PreviewProvider {
+    
     public static var previews: some View {
-        SwitchCassette(text: nil, isOn: .constant(false), spacing: nil)
+//        SwitchCassette(text: nil, isOn: .constant(false), spacing: nil)
+        SwitchCassette(switchType: .normal(text: nil, isOn: .constant(false), spacing: nil))
+        SwitchCassette(switchType: .rectangle(text: nil, isOn: .constant(false), spacing: nil))
     }
 }
