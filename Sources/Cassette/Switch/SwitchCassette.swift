@@ -36,12 +36,6 @@ public struct SwitchCassette: View {
     //Type
     private var switchType: SwitchType
     
-//    public init(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?) {
-//        self.bindingTitleText = text
-//        self.isOn = isOn
-//        self.spacing = spacing
-//    }
-    
     public init(switchType: SwitchType) {
         self.switchType = switchType
         
