@@ -6,7 +6,7 @@
 inspired by [Esat GÖZCÜ](https://github.com/esatgozcu/SwiftUI-Custom-TextField) CustomTextField 🙇🏻‍♂️
 
 # Cassette
-⚠️ It's still a developing Lib. (Last Update: 2023.09.08)
+⚠️ It's still a developing Lib. (Last Update: 2023.09.10)
 
 Cassette is an Custom View library written in SwiftUI.
 
@@ -43,7 +43,7 @@ Cassette is an Custom View library written in SwiftUI.
 # Installation
 ### Swift Package Manager
 ```swift
-.package(url: "https://github.com/ios-carki/Cassette.git", from: "v1.0.4")
+.package(url: "https://github.com/ios-carki/Cassette.git", from: "v1.0.5")
 ```
 # Features
 I will guide you on how to use BtnCassette(Button) in SwiftUI.
@@ -221,8 +221,15 @@ The result is the same as above, but the code is much shorter.
 # Switch
 ## Switch Usage
 - Basic
+
+<img width="100" alt="스크린샷 2023-09-10 오후 6 05 39" src="https://github.com/ios-carki/Cassette/assets/44957712/4bd2f61b-518d-4a8e-a404-4e89ec7173bb">
+
 ```swift
-SwitchCassette(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?)
+//normal
+SwitchCassette(switchType: .normal(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?))
+
+//rectangle
+SwitchCassette(switchType: .rectangle(text: Binding<String>?, isOn: Binding<Bool>, spacing: CGFloat?))
 ```
 
 - Customizing
