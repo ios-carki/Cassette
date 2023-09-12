@@ -33,6 +33,9 @@ public struct SwitchCassette: View {
     private var insertSpacer: Bool?
     private var spacing: CGFloat?
     
+    //Rectangle Handle Color
+    private var rectangleSwitchHandleColor: Color = SwitchCassetteConfig.shared.defaultRectangleSwitchHandleColor
+    
     //Type
     private var switchType: SwitchType
     
@@ -77,12 +80,21 @@ public struct SwitchCassette: View {
             .frame(width: 50, height: 30)
             .foregroundColor(isOn.wrappedValue ? switchOnBackgroundColor : switchOffBackgroundColor)
             .overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .frame(width: 26, height: 26)
-                    .foregroundColor(switchControllerColor)
-                    .offset(x: isOn.wrappedValue ? 12 : -12)
-                    .animation(.easeInOut)
-                    .padding(isOn.wrappedValue ? .trailing : .leading, 4)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 4)
+                        .frame(width: 26, height: 26)
+                        .foregroundColor(switchControllerColor)
+                        .offset(x: isOn.wrappedValue ? 12 : -12)
+                        .animation(.easeInOut)
+                        .padding(isOn.wrappedValue ? .trailing : .leading, 4)
+                    
+                    Image(systemName: "line.3.horizontal")
+                        .foregroundColor(rectangleSwitchHandleColor)
+                        .offset(x: isOn.wrappedValue ? 12 : -12)
+                        .animation(.easeInOut)
+                        .padding(isOn.wrappedValue ? .trailing : .leading, 4)
+                }
+                
             )
             .padding(2)
             .onTapGesture {
@@ -159,6 +171,13 @@ extension SwitchCassette {
         copy.insertSpacer = insert
         return copy
     }
+    
+    // Set Rectangle Switch Handle Color
+    public func setRectangleHandleColor(color: Color) -> Self {
+        var copy = self
+        copy.rectangleSwitchHandleColor = color
+        return copy
+    }
 }
 
 @available(macOS 10.15, *)
@@ -177,6 +196,9 @@ public final class SwitchCassetteConfig {
     public var defaultSwitchOnBackgroundColor: Color = .green
     public var defaultSwitchOffBackgroundColor: Color = .gray
     public var defaultSwitchControllerColor: Color = .white
+    
+    //Rectangle Switch
+    public var defaultRectangleSwitchHandleColor: Color = .gray
 }
 
 @available(macOS 10.15, *)
