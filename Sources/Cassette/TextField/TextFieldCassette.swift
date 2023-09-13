@@ -120,7 +120,12 @@ public struct TextFieldCassette: View {
                         
                     }
                     
+                    textFieldView
+                    
                 case .trailing:
+                    
+                    textFieldView
+                    
                     switch imageType {
                     case .system:
                         Spacer()
