@@ -28,6 +28,9 @@ public struct TextFieldCassette: View {
     public var imageDirection: ImageDirection?
     public var imageType: ImageType?
     
+    //SecureField
+    @State public var isSecure: Bool = false
+    
     //Title
     private var titleText: String?
     private var titleTextFont: Font = TextFieldCassetteConfig.shared.defaultTitleTextFont
@@ -108,6 +111,10 @@ public struct TextFieldCassette: View {
             .font(textFont)
     }
     
+    public var secureTextFieldView: some View {
+        SecureField("", text: text)
+    }
+    
     public var underLine: some View {
         VStack(spacing: titleTextSpacing) {
             if titleText != nil {
@@ -132,11 +139,11 @@ public struct TextFieldCassette: View {
                         
                     }
                     
-                    textFieldView
+                    textFieldType()
                     
                 case .trailing:
                     
-                    textFieldView
+                    textFieldType()
                     
                     switch imageType {
                     case .system:
@@ -173,9 +180,25 @@ public struct TextFieldCassette: View {
     public var body: some View {
         underLine
     }
+    
+    private func textFieldType() -> AnyView {
+        if isSecure {
+            return AnyView(secureTextFieldView)
+        } else {
+            return AnyView(textFieldView)
+        }
+    }
 }
 
 extension TextFieldCassette {
+    //SecureField
+    public func setSecureField(isSecure: Bool) -> Self {
+        var copy = self
+        copy._isSecure = State(initialValue: isSecure)
+        return copy
+    }
+    
+    
     //Title
     public func setTitleTextFont(_ font: Font) -> Self {
         var copy = self
@@ -312,10 +335,11 @@ public final class TextFieldCassetteConfig {
 
 public struct TextFieldCassette_Previews: PreviewProvider {
     public static var previews: some View {
-        TextFieldCassette(mode: .underLine(placeHolder: "이것은 플레이스 홀더", text: .constant(""), title: "title", alignment: nil))
+        TextFieldCassette(mode: .underLine(placeHolder: "이것은 플레이스 홀더", text: .constant("asdf"), title: "title", alignment: nil))
             .setImageButton(imageDirection: .trailing, imageType: .system, imageName: "globe", action: {
                 print("Hello")
             })
+            .setSecureField(isSecure: false)
             .padding(.horizontal, 16)
             
     }
