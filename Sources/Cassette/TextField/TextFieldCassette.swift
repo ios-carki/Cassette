@@ -125,41 +125,44 @@ public struct TextFieldCassette: View {
             }
             
             HStack {
-                switch imageDirection {
-                case .leading:
-                    switch imageType {
-                    case .system:
-                        systemImage(image: imageName ?? "")
-                        Spacer()
-                    case .custom:
-                        customImage(image: imageName ?? "")
-                        Spacer()
-                    default:
-                        EmptyView()
+                if imageDirection != nil && imageType != nil {
+                    switch imageDirection {
+                    case .leading:
+                        switch imageType {
+                        case .system:
+                            systemImage(image: imageName ?? "")
+                            Spacer()
+                        case .custom:
+                            customImage(image: imageName ?? "")
+                            Spacer()
+                        default:
+                            EmptyView()
+                            
+                        }
                         
-                    }
-                    
-                    textFieldType()
-                    
-                case .trailing:
-                    
-                    textFieldType()
-                    
-                    switch imageType {
-                    case .system:
-                        Spacer()
-                        systemImage(image: imageName ?? "")
-                    case .custom:
-                        Spacer()
-                        customImage(image: imageName ?? "")
+                        textFieldType()
+                        
+                    case .trailing:
+                        
+                        textFieldType()
+                        
+                        switch imageType {
+                        case .system:
+                            Spacer()
+                            systemImage(image: imageName ?? "")
+                        case .custom:
+                            Spacer()
+                            customImage(image: imageName ?? "")
+                        default:
+                            EmptyView()
+                        }
+                        
                     default:
                         EmptyView()
                     }
-                    
-                default:
-                    EmptyView()
+                } else {
+                    textFieldType()
                 }
-                
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
@@ -335,13 +338,22 @@ public final class TextFieldCassetteConfig {
 
 public struct TextFieldCassette_Previews: PreviewProvider {
     public static var previews: some View {
-        TextFieldCassette(mode: .underLine(placeHolder: "이것은 플레이스 홀더", text: .constant("asdf"), title: "title", alignment: nil))
-            .setImageButton(imageDirection: .trailing, imageType: .system, imageName: "globe", action: {
-                print("Hello")
-            })
-            .setSecureField(isSecure: false)
-            .padding(.horizontal, 16)
+        VStack {
+            TextFieldCassette(mode: .underLine(placeHolder: "이것은 플레이스 홀더", text: .constant("asdf"), title: "title", alignment: nil))
+                .setImageButton(imageDirection: .trailing, imageType: .system, imageName: "globe", action: {
+                    print("Hello")
+                })
+                .setSecureField(isSecure: false)
             
+            TextFieldCassette(mode: .underLine(placeHolder: "asdl", text: .constant("asaf"), title: "Title", alignment: .leading))
+                .setImageButton(imageDirection: .trailing, imageType: .system, imageName: "person") {
+                    print("Person")
+                }
+                .setSecureField(isSecure: true)
+            TextFieldCassette(mode: .underLine(placeHolder: "asdlslsd", text: .constant("asdf"), title: "TITLE", alignment: .leading))
+            
+        }
+        .padding(.horizontal, 16)
     }
 }
 
