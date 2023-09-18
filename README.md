@@ -21,6 +21,10 @@ Cassette is an Custom View library written in SwiftUI.
   - [Switch](#switch)
     - [Usage](#switch-usage)
     - [Set Default Value](#switch-set-default-value)
+   
+  - [TextField](#textfield)
+    - [Usage](#textfield-usage)
+    - [Set Default Value](#textfield-set-default-value)
  
 <!--
   - PorgressView
@@ -411,6 +415,99 @@ The result is the same as above, but the code is much shorter.
 
 <img width="268" alt="스크린샷 2023-09-08 오후 2 54 53" src="https://github.com/ios-carki/Cassette/assets/44957712/f85eec65-d4c8-4013-a173-a4d0187d20da">
 
+# TextField
+## TextField Usage
+- Basic
+```swift
+TextFieldCassette(mode: .underLine(placeHolder: "asdfok", text: $viewModel.text, title: "Title", alignment: .leading))
+```
+![스크린샷 2023-09-18 오전 11 03 21](https://github.com/ios-carki/Cassette/assets/44957712/29cb9dec-df08-4dad-bdf1-45db471ffc3b)
+
+
+- Customizing
+```swift
+//Customizing
+TextFieldCassette(mode: .underLine(placeHolder: "asdfok", text: $viewModel.text, title: "Title", alignment: .leading))
+    .setReactangleFieldBackgroundColor(.white) // SetBackgroundColor
+    .setPlaceHolderTextColor(.blue) // SetPlaceHolderTextColor
+    .setRectangleFieldBorderColor(.black) //SetBorderColor
+    .setImageButton(imageDirection: .trailing, imageType: .system(color: .black), imageName: "person") {
+        print("Hello") // SetImageButton
+    }
+```
+
+- Result
+  
+![스크린샷 2023-09-18 오전 11 06 35](https://github.com/ios-carki/Cassette/assets/44957712/09377559-69b9-4a8a-b34b-02e4de23847e)
+
+- SetError
+```swift
+struct ContentView: View {
+    
+    @StateObject private var viewModel = ContentViewModeel()
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            VStack {
+                TextFieldCassette(mode: .underLine(placeHolder: "asdfok", text: $viewModel.text, title: "Title", alignment: .leading))
+                    .setSecureField(isSecure: false)
+                    .setError(isError: $viewModel.isError, errorColor: .red)
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+}
+
+final class ContentViewModeel: ObservableObject {
+    @Published var isOn: Bool = false
+    @Published var text: String = "" { didSet { setError()}}
+    
+    @Published var isError: Bool = false
+    
+    func setError() {
+        if text == "abc" {
+            isError = true
+        } else {
+            isError = false
+        }
+    }
+}
+
+```
+
+- Error Result
+
+https://github.com/ios-carki/Cassette/assets/44957712/d2909bdd-8d75-4ce6-bc38-0bde024a2eeb
+
+## TextField Set Default Value
+If you set default value, you don't need to set customizing function every views
+```swift
+    //Title
+    public var defaultTitleTextFont: Font = .callout
+    public var defaultTitleTextColor: Color = .black
+    public var defaultTitleTextSpacing: CGFloat = 8
+    public var defaultTitleTextAlignment: Alignment = .leading
+    
+    //Text
+    public var defaultTextFont: Font = .callout
+    public var defaultTextColor: Color = .black
+    public var defaultTextAlignment: Alignment = .leading
+    
+    //PlaceHolder
+    public var defaultPlaceHolderTextColor: Color = .gray
+    public var defaultPlaceHolderTextFont: Font = .callout
+    public var defaultPlaceHolderTextAlignment: Alignment = .leading
+    
+    //Design
+    public var defaultTextFieldHeight: CGFloat = 50
+    public var defaultRectangleFieldBackgroundColor: Color = .yellow
+    public var defaultRectangleFieldCornerRadius: CGFloat = 12
+    public var defaultRectangleFieldBorderColor: Color = .orange
+    public var defaultRectangleFieldBorderWidth: CGFloat = 2
+    
+    //Error
+    public var defaultErrorColor: Color = .red
+```
 <!--
 ```swift
 
@@ -424,291 +521,4 @@ The result is the same as above, but the code is much shorter.
 ```swift
 
 ```
-
-
-### Customize config
-- SwiftUI Interface
-```swift
-import SwiftUI
-
-import Cassette // *
-
-@main
-struct LibTestApp: App {
-    init() {
-        //MARK: ** Default Setting 
-        let shared = BtnCassetteConfig.shared
-        shared.defaultButtonTextColor = .white
-        shared.defaultButtonTextFont = .semiBold16()
-        shared.defaultButtonBackgroundColor = .mainOrangeColor
-    } // Here is important!
-    
-    
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
-
-```
-
-- StoryBoard Interface
-```swift
-import UIKit
-
-import Cassette // *
-
-@main
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        ...
-
-        // Here is important!
-        let shared = BtnCassetteConfig.shared
-        shared.defaultButtonTextColor = .white
-        shared.defaultButtonTextFont = .semiBold16()
-        shared.defaultButtonBackgroundColor = .mainOrangeColor
-
-        ...
-        
-        return true
-    }
-
-    ...
-}
-```
-
-## Variable Function
-
-#### Button Mode
-- Set Mode
-```swift
-    // Mode
-    public func setMode(mode: ButtonMode?, setImageType: ImageType? = nil) -> Self {
-        var copy = self
-
-        if mode == .normal {
-            copy.buttonMode = .normal
-            copy.buttonBorderColor = .white
-            copy.buttonBackgroundColor = .black
-            copy.buttonTextColor = .white
-        }
-
-        if mode == .clear {
-            copy.buttonMode = .clear
-            copy.buttonBorderColor = .gray
-            copy.buttonBackgroundColor = .clear
-            copy.buttonTextColor = .gray
-        }
-        
-        if mode == .negative {
-            copy.buttonMode = .negative
-            copy.buttonBorderColor = .red
-            copy.buttonBackgroundColor = .clear
-            copy.buttonTextColor = .red
-        }
-        
-        if mode == .trailingImage {
-            copy.buttonMode = .trailingImage
-            if setImageType == .system {
-                copy.imageType = .system
-            } else if setImageType == .custom {
-                copy.imageType = .custom
-            }
-        }
-        
-        if mode == .leadingImage {
-            copy.buttonMode = .leadingImage
-            if setImageType == .system {
-                copy.imageType = .system
-            } else if setImageType == .custom {
-                copy.imageType = .custom
-            }
-        }
-        
-        if mode == .bindingText {
-            copy.buttonMode = .bindingText
-            
-        }
-
-        return copy
-    }
-```
-
-#### Default Text Setting
-- Set Variable
-```swift
-    //Text
-    public var defaultButtonText: String = "Set Title First"
-    public var defaultButtonTextColor: Color = .yellow
-    public var defaultButtonTextFont: Font = .callout
-```
-
-- Function
-```swift
-    // Text
-    public func setBindingText(text: Binding<String>?) -> Self {
-        var copy = self
-        copy.bindingText = text
-        return copy
-    }
-
-    public func setTitle(text: String?) -> Self {
-        var copy = self
-        copy.buttonText = text
-        return copy
-    }
-    
-    public func setTitleTextColor(color: Color) -> Self {
-        var copy = self
-        copy.buttonTextColor = color
-        return copy
-    }
-    
-    public func setTitleTextFont(font: Font) -> Self {
-        var copy = self
-        copy.buttonTextFont = font
-        return copy
-    }
-```
-
-- Binding Mode Example
-```swift
-      BtnCassette()
-          .setMode(mode: .bindingText) // * Set Mode First
-          .setBindingText(text: $viewModel.bindingText) // Here is important!
-          .setBackgroundColor(color: .red)
-          .setBorderWidth(width: 2)
-          .click {
-              viewModel.counting()
-          }
-```
-
-
-https://github.com/ios-carki/Cassette/assets/44957712/952cf6db-f039-4b3f-8316-dae8f7b23252
-
-
-#### Default Border Setting
-- Set Variable
-```swift
-    //Design
-    //Border
-    public var defaultButtonCornerRadius: CGFloat = 12
-    public var defaultBorderWidth: CGFloat = 1
-    public var defaultBorderColor: Color = .white
-```
-- Function
-```swift
-    // Design
-    // Border
-    public func setCornerRadius(_ radius: CGFloat) -> Self {
-        var copy = self
-        copy.buttonCornerRadius = radius
-        return copy
-    }
-    
-    public func setBoderWidth(width: CGFloat) -> Self {
-        var copy = self
-        copy.buttonBorderWidth = width
-        return copy
-    }
-    
-    public func setBorderColor(color: Color) -> Self {
-        var copy = self
-        copy.buttonBorderColor = color
-        return copy
-    }
-```
-
-#### Default Background Setting
-- Set Variable
-```swift
-    //Background
-    public var defaultButtonBackgroundColor: Color = .black
-    public var defaultbuttonDisableBackgroundColor: Color = .gray
-```
-
-- Function
-```swift
-    // Background
-    public func setBackgroundColor(color: Color) -> Self {
-        var copy = self
-        copy.buttonBackgroundColor = color
-        return copy
-    }
-    
-    public func setDisableBackgroundColor(color: Color) -> Self {
-        var copy = self
-        copy.buttonDisableBackgroundColor = color
-        return copy
-    }
-```
-
-#### Default Frame Setting / Function
-- Set Variable
-```swift
-    //Frame
-    public var defaultButtonHeight: CGFloat = 50
-```
-
-#### Action Function
-```swift
-    // Action
-    public func click(_ click: (() -> Void)?) -> Self {
-        var copy = self
-        copy.clickAction = click
-        return copy
-    }
-    
-    public func setDisable(disable: Binding<Bool>?) -> Self {
-        var copy = self
-        copy.disabled = disable
-        return copy
-    }
-```
-## Usage
-- Code
-```swift
-import SwiftUI
-
-import Cassette
-
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            BtnCassette()
-                .setMode(mode: .clear)
-                .setTitle(text: "send")
-                .setBackgroundColor(color: .red)
-                .setBoderWidth(width: 2)
-                .setDisable(disable: .constant(false))
-                
-        }
-        .padding()
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.mainBackgroundColor.ignoresSafeArea()
-            ContentView()
-        }
-    }
-}
-
-```
-- Result Image
-  
-![Result](https://github.com/ios-carki/Cassette/assets/44957712/1dbfee6f-8759-477d-ae0d-3c4f9d6ccd0e)
-
 -->
-
-
-
-
-
