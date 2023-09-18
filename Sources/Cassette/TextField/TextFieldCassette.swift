@@ -327,6 +327,8 @@ extension TextFieldCassette {
         
         if isError.wrappedValue {
             copy.errorColor = errorColor
+        } else {
+            copy.errorColor = rectangleFieldBorderColor
         }
         
         return copy
