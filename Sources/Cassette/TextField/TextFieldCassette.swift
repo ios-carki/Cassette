@@ -324,7 +324,11 @@ extension TextFieldCassette {
     public func setError(isError: Binding<Bool>, errorColor: Color) -> Self {
         var copy = self
         copy.isError = isError
-        copy.errorColor = errorColor
+        
+        if isError.wrappedValue {
+            copy.errorColor = errorColor
+        }
+        
         return copy
     }
     
