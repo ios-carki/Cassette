@@ -317,7 +317,12 @@ public struct TextFieldCassette: View {
     
     private func getErrorColor() -> Color {
         var errorBorderColor = rectangleFieldBorderColor
-        errorBorderColor = errorColor
+        if isError?.wrappedValue ?? false {
+            errorBorderColor = errorColor
+        } else {
+            errorBorderColor = rectangleFieldBorderColor
+        }
+        
         return errorBorderColor
     }
     
