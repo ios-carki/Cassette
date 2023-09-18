@@ -25,6 +25,7 @@ Cassette is an Custom View library written in SwiftUI.
   - [TextField](#textfield)
     - [Usage](#textfield-usage)
     - [Set Default Value](#textfield-set-default-value)
+    - [Function](#textfield-customizing-set-function)
  
 <!--
   - PorgressView
@@ -508,10 +509,54 @@ If you set default value, you don't need to set customizing function every views
     //Error
     public var defaultErrorColor: Color = .red
 ```
-<!--
-```swift
 
+### TextField Customizing Set Function
+```swift
+    //SecureField
+    setSecureField(isSecure: Bool)
+    
+    //Title
+    setTitleTextFont(_ font: Font)
+    
+    setTitleTextColor(_ color: Color)
+    
+    setTitleTextSpacing(spacing: CGFloat)
+    
+    setTitleTextAlignment(alignment: Alignment)
+    
+    //Text
+    setTextFont(_ font: Font)
+    
+    setTextColor(_ color: Color)
+    
+    setTextAlignment(alignment: Alignment)
+    
+    //PlaceHolder
+    setPlaceHolderTextColor(_ color: Color)
+    
+    setPlaceHolderTextFont(_ font: Font)
+    
+    setPlaceHolderTextAlignment(alignment: Alignment)
+    
+    //Design
+    setTextFieldHeight(_ height: CGFloat)
+
+    setReactangleFieldBackgroundColor(_ color: Color)
+    
+    setRectangleFieldCornerRadius(_ radius: CGFloat)
+    
+    setRectangleFieldBorderColor(_ color: Color)
+    
+    setRectangleFieldBorderWidth(_ width: CGFloat)
+    
+    //Error
+    setError(isError: Binding<Bool>, errorColor: Color)
+    
+    //Image
+    setImageButton(imageDirection: ImageDirection, imageType: ImageType, imageName: String, action: (() -> ())?)
 ```
+<!--
+
 ```swift
 
 ```
