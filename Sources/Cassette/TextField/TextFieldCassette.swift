@@ -433,16 +433,15 @@ extension TextFieldCassette {
     }
     
     //Error
-    public func setError(isError: Binding<Bool>, errorColor: Color) -> Self {
+    public func setError(isError: Binding<Bool>) -> Self {
         var copy = self
         copy.isError = isError
-        
-        if isError.wrappedValue {
-            copy.errorColor = errorColor
-        } else {
-            copy.errorColor = rectangleFieldBorderColor
-        }
-        
+        return copy
+    }
+    
+    public func setErrorColor(color: Color) -> Self {
+        var copy = self
+        copy.errorColor = color
         return copy
     }
     
@@ -509,7 +508,9 @@ public struct TextFieldCassette_Previews: PreviewProvider {
         VStack {
             
             TextFieldCassette(mode: .secureUnderLine(placeHolder: "dldl", text: .constant("asd"), secureImageType: .system(color: .black, on: "eye", off: "eye.slash.fill"), title: "Title", alignment: nil))
-                .setError(isError: .constant(true), errorColor: .blue)
+                .setError(isError: .constant(false))
+            
+                .setErrorColor(color: .blue)
                 
             
         }
