@@ -278,7 +278,7 @@ public struct TextFieldCassette: View {
             .overlay(
               RoundedRectangle(cornerRadius: rectangleFieldCornerRadius)
                 .inset(by: 0.5)
-                .stroke((isError?.wrappedValue ?? false) ? errorColor : rectangleFieldBorderColor, lineWidth: rectangleFieldBorderWidth)
+                .stroke(getBorderColor(), lineWidth: rectangleFieldBorderWidth)
             )
             
         }
