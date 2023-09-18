@@ -316,7 +316,9 @@ public struct TextFieldCassette: View {
     }
     
     private func getErrorColor() -> Color {
-        return errorColor
+        var errorBorderColor = rectangleFieldBorderColor
+        errorBorderColor = errorColor
+        return errorBorderColor
     }
     
     private func getSecureUnderLineView() -> AnyView {
