@@ -19,9 +19,20 @@ public struct TextFieldCassette: View {
         case custom
     }
     
+    private enum SecureViewType {
+        case secureUnderLine
+    }
+    
+    public enum SecureImageType {
+        case system(color: Color, on: String, off: String)
+        case custom(on: String, off: String)
+    }
+    
     public enum TextFieldMode {
         case underLine(placeHolder: String?, text: Binding<String>, title: String?, alignment: Alignment?)
         case rectangleBox(text: Binding<String>)
+        
+        case secureUnderLine(placeHolder: String?, text: Binding<String>, secureImageType: SecureImageType?, title: String?, alignment: Alignment?)
     }
     
     public var textFieldMode: TextFieldMode
@@ -29,7 +40,14 @@ public struct TextFieldCassette: View {
     public var imageType: ImageType?
     
     //SecureField
-    @State public var isSecure: Bool = false
+    private var secureViewType: SecureViewType?
+    private var secureImageType: SecureImageType?
+    @State private var isSecure: Bool = true
+    @State private var secureOnImage: String = TextFieldCassetteConfig.shared.defaultSecureOnImage
+    @State private var secureOffImage: String = TextFieldCassetteConfig.shared.defaultSecureOffImage
+    @State private var secureImageColor: Color = TextFieldCassetteConfig.shared.defaultSecureImageColor
+    private var secureImageWidth: CGFloat = TextFieldCassetteConfig.shared.defaultSecureImageWidth
+    private var secureImageHeight: CGFloat = TextFieldCassetteConfig.shared.defaultSecureeImageHeight
     
     //Title
     private var titleText: String?
@@ -80,6 +98,15 @@ public struct TextFieldCassette: View {
             
         case .rectangleBox(let text):
             self.text = text
+            
+        case .secureUnderLine(let placeHolder, let text, let secureImageType, let title, let alignment):
+            self.secureViewType = .secureUnderLine
+            self.isSecure = true
+            self.placeHolderText = placeHolder
+            self.text = text
+            self.secureImageType = secureImageType
+            self.titleText = title
+            self.titleTextAlignment = alignment ?? .leading
         }
     }
     
@@ -121,10 +148,78 @@ public struct TextFieldCassette: View {
             .font(textFont)
     }
     
-    public var secureTextFieldView: some View {
-        SecureField("", text: text)
+    // MARK:  Mode - SecureUnderLine
+    public var secureUnderLine: some View {
+        VStack(spacing: titleTextSpacing) {
+            if titleText != nil {
+                Text(titleText ?? "")
+                    .foregroundColor(titleTextColor)
+                    .font(titleTextFont)
+                    .frame(maxWidth: .infinity, alignment: titleTextAlignment)
+            }
+            
+            HStack {
+                getSecureUnderLineView()
+                    .placeholder(when: text.wrappedValue.isEmpty, alignment: placeHolderTextAlignment, placeholder: {
+                        Text(placeHolderText ?? "")
+                            .foregroundColor(placeHolderTextColor)
+                            .font(placeHolderTextFont)
+                    })
+                    .foregroundColor(textColor)
+                    .font(textFont)
+                
+                Spacer()
+                
+                switch secureImageType {
+                case .system:
+                    HStack(alignment: .center, spacing: 10) {
+                        Image(systemName: (isSecure) ? secureOnImage : secureOffImage)
+                            .resizable()
+                            .frame(width: secureImageWidth, height: secureImageHeight)
+                            .onTapGesture {
+                                isSecure.toggle()
+                            }
+                    }
+                    .padding(.horizontal, 2)
+                    .padding(.vertical, 0)
+                    .frame(width: 24, height: 24, alignment: .center)
+//                    Image(systemName: (isSecure) ? secureOnImage : secureOffImage)
+//                        .resizable()
+//                        .frame(width: secureImageWidth, height: secureImageHeight)
+//                        .onTapGesture {
+//                            isSecure.toggle()
+//                        }
+                case .custom:
+                    HStack(alignment: .center, spacing: 10) {
+                        Image((isSecure) ? secureOnImage : secureOffImage)
+                            .resizable()
+                            .frame(width: secureImageWidth, height: secureImageHeight)
+                            .onTapGesture {
+                                isSecure.toggle()
+                            }
+                    }
+                    .padding(.horizontal, 2)
+                    .padding(.vertical, 0)
+                    .frame(width: 24, height: 24, alignment: .center)
+                default:
+                    EmptyView()
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .frame(height: textFieldHeight)
+            .frame(maxWidth: .infinity, alignment: textAlignment)
+            .background(rectangleFieldBackgroundColor)
+            .cornerRadius(rectangleFieldCornerRadius)
+            .overlay(
+              RoundedRectangle(cornerRadius: rectangleFieldCornerRadius)
+                .inset(by: 0.5)
+                .stroke((isError?.wrappedValue ?? false) ? getBorderColor() : rectangleFieldBorderColor, lineWidth: rectangleFieldBorderWidth)
+            )
+        }
     }
     
+    // MARK:  Mode - UnderLine
     public var underLine: some View {
         VStack(spacing: titleTextSpacing) {
             if titleText != nil {
@@ -150,11 +245,11 @@ public struct TextFieldCassette: View {
                             
                         }
                         
-                        textFieldType()
+                        textFieldView
                         
                     case .trailing:
                         
-                        textFieldType()
+                        textFieldView
                         
                         switch imageType {
                         case .system:
@@ -171,7 +266,7 @@ public struct TextFieldCassette: View {
                         EmptyView()
                     }
                 } else {
-                    textFieldType()
+                    textFieldView
                 }
             }
             .padding(.horizontal, 16)
@@ -189,18 +284,25 @@ public struct TextFieldCassette: View {
         }
     }
     
-    
+    // MARK:  Body
     public var body: some View {
-        underLine
-    }
-    
-    private func textFieldType() -> AnyView {
-        if isSecure {
-            return AnyView(secureTextFieldView)
-        } else {
-            return AnyView(textFieldView)
+        switch textFieldMode {
+        case .underLine:
+            underLine
+        case .rectangleBox:
+            EmptyView()
+        case .secureUnderLine:
+            secureUnderLine
         }
     }
+    
+//    private func textFieldType() -> AnyView {
+//        if isSecure {
+//            return AnyView(secureTextFieldView)
+//        } else {
+//            return AnyView(textFieldView)
+//        }
+//    }
     
     private func getBorderColor() -> Color {
         
@@ -216,13 +318,23 @@ public struct TextFieldCassette: View {
     private func getErrorColor() -> Color {
         return (isError?.wrappedValue ?? false) ? errorColor : rectangleFieldBorderColor
     }
+    
+    private func getSecureUnderLineView() -> AnyView {
+        if isSecure {
+            return AnyView(SecureField("", text: text))
+        } else {
+            return AnyView(TextField("", text: text))
+        }
+    }
 }
 
 extension TextFieldCassette {
     //SecureField
-    public func setSecureField(isSecure: Bool) -> Self {
+    public func setSecureImageSize(width: CGFloat, height: CGFloat) -> Self {
         var copy = self
-        copy._isSecure = State(initialValue: isSecure)
+        copy.secureImageWidth = width
+        copy.secureImageHeight = height
+
         return copy
     }
     
@@ -358,6 +470,13 @@ public final class TextFieldCassetteConfig {
     
     private init() {}
     
+    //Secure
+    public var defaultSecureOnImage: String = "eye"
+    public var defaultSecureOffImage: String = "eye.slash.fill"
+    public var defaultSecureImageColor: Color = .black
+    public var defaultSecureImageWidth: CGFloat = 20
+    public var defaultSecureeImageHeight: CGFloat = 12
+    
     //Title
     public var defaultTitleTextFont: Font = .callout
     public var defaultTitleTextColor: Color = .black
@@ -388,11 +507,10 @@ public final class TextFieldCassetteConfig {
 public struct TextFieldCassette_Previews: PreviewProvider {
     public static var previews: some View {
         VStack {
-            TextFieldCassette(mode: .underLine(placeHolder: "이것은 플레이스 홀더", text: .constant("asdf"), title: "title", alignment: nil))
-                .setImageButton(imageDirection: .trailing, imageType: .system(color: .red), imageName: "globe", action: {
-                    print("Hello")
-                })
-                .setSecureField(isSecure: false)
+            
+            TextFieldCassette(mode: .secureUnderLine(placeHolder: "dldl", text: .constant("asd"), secureImageType: .system(color: .black, on: "eye", off: "eye.slash.fill"), title: "Title", alignment: nil))
+                .setError(isError: .constant(true), errorColor: .blue)
+                
             
         }
         .padding(.horizontal, 16)
