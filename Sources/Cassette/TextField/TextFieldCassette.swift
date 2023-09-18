@@ -310,9 +310,9 @@ public struct TextFieldCassette: View {
             return getErrorColor()
         } else if isError == nil {
             return rectangleFieldBorderColor
+        } else {
+            return rectangleFieldBorderColor
         }
-        
-        return .red
     }
     
     private func getErrorColor() -> Color {
