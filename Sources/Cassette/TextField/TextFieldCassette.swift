@@ -15,7 +15,7 @@ public struct TextFieldCassette: View {
     }
     
     public enum ImageType {
-        case system
+        case system(color: Color)
         case custom
     }
     
@@ -52,6 +52,7 @@ public struct TextFieldCassette: View {
     
     //Image
     private var imageName: String?
+    private var imageColor: Color?
     
     //Design
     private var textFieldHeight: CGFloat = TextFieldCassetteConfig.shared.defaultTextFieldHeight
@@ -81,6 +82,9 @@ public struct TextFieldCassette: View {
     public func systemImage(image: String) -> some View {
         var imageView: some View {
            Image(systemName: image)
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundColor(imageColor ?? .black)
                 .onTapGesture {
                     imageTapGesture?()
                 }
@@ -92,6 +96,8 @@ public struct TextFieldCassette: View {
     public func customImage(image: String) -> some View {
         var imageView: some View {
            Image(image)
+                .resizable()
+                .frame(width: 24, height: 24)
                 .onTapGesture {
                     imageTapGesture?()
                 }
@@ -201,7 +207,6 @@ extension TextFieldCassette {
         return copy
     }
     
-    
     //Title
     public func setTitleTextFont(_ font: Font) -> Self {
         var copy = self
@@ -303,6 +308,13 @@ extension TextFieldCassette {
         copy.imageType = imageType
         copy.imageName = imageName
         copy.imageTapGesture = action
+        
+        switch imageType {
+        case .system(let color):
+            copy.imageColor = color
+        case .custom:
+            break
+        }
         return copy
     }
 }
@@ -340,17 +352,25 @@ public struct TextFieldCassette_Previews: PreviewProvider {
     public static var previews: some View {
         VStack {
             TextFieldCassette(mode: .underLine(placeHolder: "이것은 플레이스 홀더", text: .constant("asdf"), title: "title", alignment: nil))
-                .setImageButton(imageDirection: .trailing, imageType: .system, imageName: "globe", action: {
+                .setImageButton(imageDirection: .trailing, imageType: .system(color: .red), imageName: "globe", action: {
                     print("Hello")
                 })
                 .setSecureField(isSecure: false)
             
             TextFieldCassette(mode: .underLine(placeHolder: "asdl", text: .constant("asaf"), title: "Title", alignment: .leading))
-                .setImageButton(imageDirection: .trailing, imageType: .system, imageName: "person") {
+                .setImageButton(imageDirection: .trailing, imageType: .system(color: .blue), imageName: "person") {
                     print("Person")
                 }
                 .setSecureField(isSecure: true)
             TextFieldCassette(mode: .underLine(placeHolder: "asdlslsd", text: .constant("asdf"), title: "TITLE", alignment: .leading))
+                .setImageButton(imageDirection: .trailing, imageType: .system(color: .green), imageName: "trash") {
+                    print("Trash")
+                }
+            
+            TextFieldCassette(mode: .underLine(placeHolder: "asdlslsd", text: .constant("asdf"), title: "TITLE", alignment: .leading))
+                .setImageButton(imageDirection: .trailing, imageType: .system(color: .gray), imageName: "trash") {
+                    print("")
+                }
             
         }
         .padding(.horizontal, 16)
