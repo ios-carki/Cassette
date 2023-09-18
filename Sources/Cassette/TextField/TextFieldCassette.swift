@@ -214,7 +214,7 @@ public struct TextFieldCassette: View {
             .overlay(
               RoundedRectangle(cornerRadius: rectangleFieldCornerRadius)
                 .inset(by: 0.5)
-                .stroke((isError?.wrappedValue ?? false) ? errorColor : rectangleFieldBorderColor, lineWidth: rectangleFieldBorderWidth)
+                .stroke(getBorderColor(), lineWidth: rectangleFieldBorderWidth)
             )
         }
     }
@@ -515,7 +515,7 @@ public struct TextFieldCassette_Previews: PreviewProvider {
                 .setErrorColor(color: .blue)
             
             TextFieldCassette(mode: .secureUnderLine(placeHolder: "Enter your new password", text: .constant("asd"), secureImageType: .custom(on: "Eye_on", off: "Eye_off"), title: "New Password", alignment: .leading))
-                .setError(isError: .constant(false))
+                .setError(isError: .constant(true))
                 .setErrorColor(color: .red)
                 
             
