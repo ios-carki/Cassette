@@ -316,7 +316,7 @@ public struct TextFieldCassette: View {
     }
     
     private func getErrorColor() -> Color {
-        return (isError?.wrappedValue ?? false) ? errorColor : rectangleFieldBorderColor
+        return errorColor
     }
     
     private func getSecureUnderLineView() -> AnyView {
@@ -511,6 +511,10 @@ public struct TextFieldCassette_Previews: PreviewProvider {
                 .setError(isError: .constant(false))
             
                 .setErrorColor(color: .blue)
+            
+            TextFieldCassette(mode: .secureUnderLine(placeHolder: "Enter your new password", text: .constant("asd"), secureImageType: .custom(on: "Eye_on", off: "Eye_off"), title: "New Password", alignment: .leading))
+                .setError(isError: .constant(false))
+                .setErrorColor(color: .red)
                 
             
         }
