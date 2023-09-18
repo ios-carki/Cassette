@@ -61,6 +61,10 @@ public struct TextFieldCassette: View {
     private var rectangleFieldBorderColor: Color = TextFieldCassetteConfig.shared.defaultRectangleFieldBorderColor
     private var rectangleFieldBorderWidth: CGFloat = TextFieldCassetteConfig.shared.defaultRectangleFieldBorderWidth
     
+    //Error
+    private var isError: Binding<Bool>?
+    private var errorColor: Color = TextFieldCassetteConfig.shared.defaultErrorColor
+    
     //Action
     private var imageTapGesture: (() -> ())?
     
@@ -179,7 +183,7 @@ public struct TextFieldCassette: View {
             .overlay(
               RoundedRectangle(cornerRadius: rectangleFieldCornerRadius)
                 .inset(by: 0.5)
-                .stroke(rectangleFieldBorderColor, lineWidth: rectangleFieldBorderWidth)
+                .stroke(getBorderColor(), lineWidth: rectangleFieldBorderWidth)
             )
             
         }
@@ -196,6 +200,21 @@ public struct TextFieldCassette: View {
         } else {
             return AnyView(textFieldView)
         }
+    }
+    
+    private func getBorderColor() -> Color {
+        
+        if (isError?.wrappedValue ?? false) {
+            return getErrorColor()
+        } else if isError == nil {
+            return rectangleFieldBorderColor
+        }
+        
+        return .red
+    }
+    
+    private func getErrorColor() -> Color {
+        return (isError?.wrappedValue ?? false) ? errorColor : rectangleFieldBorderColor
     }
 }
 
@@ -301,6 +320,14 @@ extension TextFieldCassette {
         return copy
     }
     
+    //Error
+    public func setError(isError: Binding<Bool>, errorColor: Color) -> Self {
+        var copy = self
+        copy.isError = isError
+        copy.errorColor = errorColor
+        return copy
+    }
+    
     //Image
     public func setImageButton(imageDirection: ImageDirection, imageType: ImageType, imageName: String, action: (() -> ())?) -> Self {
         var copy = self
@@ -347,6 +374,9 @@ public final class TextFieldCassetteConfig {
     public var defaultRectangleFieldCornerRadius: CGFloat = 12
     public var defaultRectangleFieldBorderColor: Color = .orange
     public var defaultRectangleFieldBorderWidth: CGFloat = 2
+    
+    //Error
+    public var defaultErrorColor: Color = .red
 }
 
 public struct TextFieldCassette_Previews: PreviewProvider {
@@ -357,21 +387,6 @@ public struct TextFieldCassette_Previews: PreviewProvider {
                     print("Hello")
                 })
                 .setSecureField(isSecure: false)
-            
-            TextFieldCassette(mode: .underLine(placeHolder: "asdl", text: .constant("asaf"), title: "Title", alignment: .leading))
-                .setImageButton(imageDirection: .trailing, imageType: .system(color: .blue), imageName: "person") {
-                    print("Person")
-                }
-                .setSecureField(isSecure: true)
-            TextFieldCassette(mode: .underLine(placeHolder: "asdlslsd", text: .constant("asdf"), title: "TITLE", alignment: .leading))
-                .setImageButton(imageDirection: .trailing, imageType: .system(color: .green), imageName: "trash") {
-                    print("Trash")
-                }
-            
-            TextFieldCassette(mode: .underLine(placeHolder: "asdlslsd", text: .constant("asdf"), title: "TITLE", alignment: .leading))
-                .setImageButton(imageDirection: .trailing, imageType: .system(color: .gray), imageName: "trash") {
-                    print("")
-                }
             
         }
         .padding(.horizontal, 16)
