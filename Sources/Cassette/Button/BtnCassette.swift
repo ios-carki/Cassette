@@ -35,6 +35,7 @@ public struct BtnCassette: View {
     private var text: String?
     private var bindingText: Binding<String>?
     private var textColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
+    private var disableTextColor: Color = BtnCassetteConfig.shared.defaultDisableTextColor
     private var textFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
     
     //Image
@@ -84,7 +85,7 @@ public struct BtnCassette: View {
         
         HStack(alignment: .center, spacing: 10) {
             Text(text ?? "")
-                .foregroundColor(textColor)
+                .foregroundColor((disabled?.wrappedValue == true) ? disableTextColor : textColor)
                 .font(textFont)
         }
         .padding(.horizontal, 22)
@@ -103,7 +104,7 @@ public struct BtnCassette: View {
     public var bindingTextButton: some View {
         HStack(alignment: .center, spacing: 10) {
             Text(bindingText?.wrappedValue ?? "")
-                .foregroundColor(textColor)
+                .foregroundColor((disabled?.wrappedValue == true) ? disableTextColor : textColor)
                 .font(textFont)
         }
         .padding(.horizontal, 22)
@@ -126,13 +127,13 @@ public struct BtnCassette: View {
                 switch imageDirection {
                 case .trailing:
                     Text(text ?? "")
-                        .foregroundColor(textColor)
+                        .foregroundColor((disabled?.wrappedValue == true) ? disableTextColor : textColor)
                         .font(textFont)
                     Image(systemName: imageName ?? "globe")
                 case .leading:
                     Image(systemName: imageName ?? "globe")
                     Text(text ?? "")
-                        .foregroundColor(textColor)
+                        .foregroundColor((disabled?.wrappedValue == true) ? disableTextColor : textColor)
                         .font(textFont)
                 default:
                     EmptyView()
@@ -141,13 +142,13 @@ public struct BtnCassette: View {
                 switch imageDirection {
                 case .trailing:
                     Text(text ?? "")
-                        .foregroundColor(textColor)
+                        .foregroundColor((disabled?.wrappedValue == true) ? disableTextColor : textColor)
                         .font(textFont)
                     Image(imageName ?? "")
                 case .leading:
                     Image(systemName: imageName ?? "")
                     Text(text ?? "")
-                        .foregroundColor(textColor)
+                        .foregroundColor((disabled?.wrappedValue == true) ? disableTextColor : textColor)
                         .font(textFont)
                 default:
                     EmptyView()
@@ -194,6 +195,12 @@ extension BtnCassette {
     public func setTitleTextColor(color: Color) -> Self {
         var copy = self
         copy.textColor = color
+        return copy
+    }
+    
+    public func setDisableTitleTextColor(color: Color) -> Self {
+        var copy = self
+        copy.disableTextColor = color
         return copy
     }
     
@@ -261,23 +268,24 @@ extension BtnCassette {
 public final class BtnCassetteConfig {
     public static var shared = BtnCassetteConfig()
         
-        private init() {}
-        //Text
-        public var defaultButtonTextColor: Color = .blue
-        public var defaultButtonTextFont: Font = .callout
-        
-        //Design
-        //Border
-        public var defaultButtonCornerRadius: CGFloat = 12
-        public var defaultBorderWidth: CGFloat = 1
-        public var defaultBorderColor: Color = .blue
-        
-        //Background
-        public var defaultButtonBackgroundColor: Color = .white
-        public var defaultbuttonDisableBackgroundColor: Color = .gray
-        
-        //Frame
-        public var defaultButtonHeight: CGFloat = 50
+    private init() {}
+    //Text
+    public var defaultButtonTextColor: Color = .blue
+    public var defaultDisableTextColor: Color = .gray
+    public var defaultButtonTextFont: Font = .callout
+    
+    //Design
+    //Border
+    public var defaultButtonCornerRadius: CGFloat = 12
+    public var defaultBorderWidth: CGFloat = 1
+    public var defaultBorderColor: Color = .blue
+    
+    //Background
+    public var defaultButtonBackgroundColor: Color = .white
+    public var defaultbuttonDisableBackgroundColor: Color = .gray
+    
+    //Frame
+    public var defaultButtonHeight: CGFloat = 50
 }
 
 @available(macOS 11.0, *)
