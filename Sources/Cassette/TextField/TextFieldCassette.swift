@@ -183,12 +183,7 @@ public struct TextFieldCassette: View {
                     .padding(.horizontal, 2)
                     .padding(.vertical, 0)
                     .frame(width: 24, height: 24, alignment: .center)
-//                    Image(systemName: (isSecure) ? secureOnImage : secureOffImage)
-//                        .resizable()
-//                        .frame(width: secureImageWidth, height: secureImageHeight)
-//                        .onTapGesture {
-//                            isSecure.toggle()
-//                        }
+                    
                 case .custom:
                     HStack(alignment: .center, spacing: 10) {
                         Image((isSecure) ? secureOnImage : secureOffImage)
@@ -201,6 +196,7 @@ public struct TextFieldCassette: View {
                     .padding(.horizontal, 2)
                     .padding(.vertical, 0)
                     .frame(width: 24, height: 24, alignment: .center)
+                    
                 default:
                     EmptyView()
                 }
@@ -295,14 +291,6 @@ public struct TextFieldCassette: View {
             secureUnderLine
         }
     }
-    
-//    private func textFieldType() -> AnyView {
-//        if isSecure {
-//            return AnyView(secureTextFieldView)
-//        } else {
-//            return AnyView(textFieldView)
-//        }
-//    }
     
     private func getBorderColor() -> Color {
         

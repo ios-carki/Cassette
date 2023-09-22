@@ -103,6 +103,7 @@ public struct SwitchCassette: View {
                 }
             }
     }
+    
     public var body: some View {
         HStack(spacing: spacing) {
             if (bindingTitleText?.wrappedValue != nil) {

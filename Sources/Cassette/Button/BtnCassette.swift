@@ -58,9 +58,6 @@ public struct BtnCassette: View {
     private var clickAction: (() -> ())?
     private var disabled : Binding<Bool>?
     
-//    public init() {
-//        buttonMode = .normal(text ?? "")
-//    }
     //Normal
     public init(buttonMode: ButtonMode) {
         self.buttonMode = buttonMode
