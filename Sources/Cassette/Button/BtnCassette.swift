@@ -205,7 +205,7 @@ public struct BtnCassette: View {
             case .normal:
                 normalButton
             case .normalGradient:
-                normalButton
+                normalGradientButton
             case .bindingText:
                 bindingTextButton
             case .imageButton:
@@ -344,8 +344,9 @@ struct BtnCassette_Previews: PreviewProvider {
             } else {
                 // Fallback on earlier versions
             }
-            BtnCassette(buttonMode: .normal(text: "asdf"))
-                
+//            BtnCassette(buttonMode: .normal(text: "asdf"))
+            BtnCassette(buttonMode: .normalGradient(text: "asdf"))
+                .setLinearBackgroundColor(colors: [.black, .blue], startPoint: .topLeading, endPoint: .bottomTrailing)
         }
     }
 }
