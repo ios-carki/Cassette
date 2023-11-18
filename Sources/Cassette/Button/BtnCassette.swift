@@ -117,7 +117,7 @@ public struct BtnCassette: View {
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
-        .background((disabled?.wrappedValue == true) ? LinearGradient(colors: buttonLinearBackgroundColors, startPoint: gradientStartPoint, endPoint: gradientEndPoint) : LinearGradient(colors: buttonDisableLinearBackgroundColors, startPoint: gradientStartPoint, endPoint: gradientEndPoint))
+        .background((disabled?.wrappedValue == true) ? LinearGradient(colors: buttonDisableLinearBackgroundColors, startPoint: gradientStartPoint, endPoint: gradientEndPoint) : LinearGradient(colors: buttonLinearBackgroundColors, startPoint: gradientStartPoint, endPoint: gradientEndPoint))
         .cornerRadius(buttonCornerRadius)
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius)
