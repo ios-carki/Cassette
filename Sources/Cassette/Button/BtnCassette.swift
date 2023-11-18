@@ -23,6 +23,7 @@ public struct BtnCassette: View {
     
     public enum ButtonMode {
         case normal(text: String)
+        case normalGradient(text: String)
         case imageButton(text: String, imageDirection: ImageDirection, imageType: ImageType, imageName: String)
         case bindingText(text: Binding<String>)
     }
@@ -48,8 +49,12 @@ public struct BtnCassette: View {
     private var buttonBorderColor: Color = BtnCassetteConfig.shared.defaultBorderColor
     
     //Background
+    private var gradientStartPoint: UnitPoint = BtnCassetteConfig.shared.defaultGradientStartPoint
+    private var gradientEndPoint: UnitPoint = BtnCassetteConfig.shared.defaultGradientEndPoint
     private var buttonBackgroundColor: Color = BtnCassetteConfig.shared.defaultButtonBackgroundColor
+    private var buttonLinearBackgroundColors: [Color] = BtnCassetteConfig.shared.defaultButtonLinearBackgroundColors
     private var buttonDisableBackgroundColor: Color = BtnCassetteConfig.shared.defaultbuttonDisableBackgroundColor
+    private var buttonDisableLinearBackgroundColors: [Color] = BtnCassetteConfig.shared.defaultButtonDisableLinearBackgroundColors
     
     //Frame
     private var buttonHeight: CGFloat = BtnCassetteConfig.shared.defaultButtonHeight
@@ -64,6 +69,9 @@ public struct BtnCassette: View {
         
         switch self.buttonMode {
         case .normal(let text):
+            self.text = text
+            
+        case .normalGradient(let text):
             self.text = text
             
         case .bindingText(let text):
@@ -90,6 +98,26 @@ public struct BtnCassette: View {
         .frame(maxWidth: .infinity)
         .frame(height: buttonHeight, alignment: .center)
         .background((disabled?.wrappedValue == true) ? buttonDisableBackgroundColor : buttonBackgroundColor)
+        .cornerRadius(buttonCornerRadius)
+        .overlay(
+          RoundedRectangle(cornerRadius: buttonCornerRadius)
+            .inset(by: 0.5)
+            .stroke(buttonBorderColor, lineWidth: buttonBorderWidth)
+        )
+    }
+    
+    public var normalGradientButton: some View {
+        
+        HStack(alignment: .center, spacing: 10) {
+            Text(text ?? "")
+                .foregroundColor((disabled?.wrappedValue == true) ? disableTextColor : textColor)
+                .font(textFont)
+        }
+        .padding(.horizontal, 22)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity)
+        .frame(height: buttonHeight, alignment: .center)
+        .background((disabled?.wrappedValue == true) ? LinearGradient(colors: buttonLinearBackgroundColors, startPoint: gradientStartPoint, endPoint: gradientEndPoint) : LinearGradient(colors: buttonDisableLinearBackgroundColors, startPoint: gradientStartPoint, endPoint: gradientEndPoint))
         .cornerRadius(buttonCornerRadius)
         .overlay(
           RoundedRectangle(cornerRadius: buttonCornerRadius)
@@ -176,6 +204,8 @@ public struct BtnCassette: View {
             switch buttonMode {
             case .normal:
                 normalButton
+            case .normalGradient:
+                normalButton
             case .bindingText:
                 bindingTextButton
             case .imageButton:
@@ -246,6 +276,22 @@ extension BtnCassette {
         return copy
     }
     
+    public func setLinearBackgroundColor(colors: [Color], startPoint: UnitPoint, endPoint: UnitPoint) -> Self {
+        var copy = self
+        copy.buttonLinearBackgroundColors = colors
+        copy.gradientStartPoint = startPoint
+        copy.gradientEndPoint = endPoint
+        return copy
+    }
+    
+    public func setLinearDisableBackgroundColor(colors: [Color], startPoint: UnitPoint, endPoint: UnitPoint) -> Self {
+        var copy = self
+        copy.buttonDisableLinearBackgroundColors = colors
+        copy.gradientStartPoint = startPoint
+        copy.gradientEndPoint = endPoint
+        return copy
+    }
+    
     // Action
     public func click(_ click: (() -> Void)?) -> Self {
         var copy = self
@@ -279,7 +325,11 @@ public final class BtnCassetteConfig {
     
     //Background
     public var defaultButtonBackgroundColor: Color = .white
+    public var defaultButtonLinearBackgroundColors: [Color] = [.white]
     public var defaultbuttonDisableBackgroundColor: Color = .gray
+    public var defaultButtonDisableLinearBackgroundColors: [Color] = [.gray]
+    public var defaultGradientStartPoint: UnitPoint = .topLeading
+    public var defaultGradientEndPoint: UnitPoint = .bottomTrailing
     
     //Frame
     public var defaultButtonHeight: CGFloat = 50
