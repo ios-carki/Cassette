@@ -7,6 +7,6 @@
 
 import Foundation
 
-internal protocol ProtocolButton {
+protocol ProtocolButton {
     var text: String? { get set }
 }
