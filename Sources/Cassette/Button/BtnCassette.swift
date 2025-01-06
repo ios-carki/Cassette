@@ -10,41 +10,22 @@ import SwiftUI
 @available(macOS 11.0, *)
 @available(iOS 13.0, *)
 public struct BtnCassette: View, ProtocolButton {
+    
     var text: String?
     
-    public var buttonMode: ButtonMode
-    public var imageDirection: ImageDirection?
-    public var imageType: ImageType?
+    var buttonMode: ButtonMode
     
-    //Text
-    private var bindingText: Binding<String>?
-    internal var textColor: Color = BtnCassetteConfig.shared.defaultButtonTextColor
-    internal var disableTextColor: Color = BtnCassetteConfig.shared.defaultDisableTextColor
-    internal var textFont: Font = BtnCassetteConfig.shared.defaultButtonTextFont
+    var imageDirection: ImageDirection?
     
-    //Image
-    private var imageName: String?
+    var imageType: ImageType?
     
-    //Design
-    //Border
-    internal var buttonCornerRadius: CGFloat = BtnCassetteConfig.shared.defaultButtonCornerRadius
-    internal var buttonBorderWidth: CGFloat = BtnCassetteConfig.shared.defaultBorderWidth
-    internal var buttonBorderColor: Color = BtnCassetteConfig.shared.defaultBorderColor
+    var bindingText: Binding<String>?
     
-    //Background
-    internal var gradientStartPoint: UnitPoint = BtnCassetteConfig.shared.defaultGradientStartPoint
-    internal var gradientEndPoint: UnitPoint = BtnCassetteConfig.shared.defaultGradientEndPoint
-    internal var buttonBackgroundColor: Color = BtnCassetteConfig.shared.defaultButtonBackgroundColor
-    internal var buttonLinearBackgroundColors: [Color] = BtnCassetteConfig.shared.defaultButtonLinearBackgroundColors
-    internal var buttonDisableBackgroundColor: Color = BtnCassetteConfig.shared.defaultbuttonDisableBackgroundColor
-    internal var buttonDisableLinearBackgroundColors: [Color] = BtnCassetteConfig.shared.defaultButtonDisableLinearBackgroundColors
+    var imageName: String?
     
-    //Frame
-    internal var buttonHeight: CGFloat = BtnCassetteConfig.shared.defaultButtonHeight
+    var clickAction: (() -> ())?
+    var disabled: Binding<Bool>?
     
-    //Action
-    internal var clickAction: (() -> ())?
-    internal var disabled : Binding<Bool>?
     
     //Normal
     public init(buttonMode: ButtonMode) {
